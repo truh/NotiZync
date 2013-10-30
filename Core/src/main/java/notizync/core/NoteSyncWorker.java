@@ -3,5 +3,5 @@ package notizync.core;
 /**
  *
  */
-public interface IClient {
+public class NoteSyncWorker {
 }

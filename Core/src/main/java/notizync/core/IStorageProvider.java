@@ -29,5 +29,5 @@ public interface IStorageProvider {
      *
      * @return
      */
-    public long getUniqueID();
+    public int getUniqueID();
 }

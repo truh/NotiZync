@@ -10,4 +10,9 @@ public interface INotiRegistry {
      * @return
      */
     public boolean addStorageProvider(IStorageProvider storageProvider);
+
+    /**
+     *
+     */
+    public boolean addNoteClient(INoteDisplay client);
 }
