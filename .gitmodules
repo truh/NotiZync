@@ -1,0 +1,3 @@
+[submodule "itc4j"]
+	path = itc4j
+	url = git@github.com:jklepp-tgm/itc4j.git
