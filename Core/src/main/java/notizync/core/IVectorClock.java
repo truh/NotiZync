@@ -1,9 +1,12 @@
 package notizync.core;
 
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 /**
+ * A interface describing a vector clock
  *
+ * A vector clock is a system for ordering events in a distributed system
  */
 public interface IVectorClock extends Comparable <IVectorClock> {
 
@@ -15,7 +18,7 @@ public interface IVectorClock extends Comparable <IVectorClock> {
     @Override
     public int compareTo(IVectorClock vectorClock) throws RuntimeException;
 
-    public interface IClockEntry extends Comparable <IClockEntry> {
+    public interface IVectorClockEntry extends Comparable <IVectorClockEntry> {
         /**
          *
          * @return
@@ -30,10 +33,16 @@ public interface IVectorClock extends Comparable <IVectorClock> {
 
         /**
          *
+         * @return
+         */
+        public long getTime();
+
+        /**
+         *
          * @param clockEntry
          * @return
          */
         @Override
-        public int compareTo(IClockEntry clockEntry);
+        public int compareTo(IVectorClockEntry clockEntry);
     }
 }

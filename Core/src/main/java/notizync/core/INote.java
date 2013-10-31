@@ -17,6 +17,7 @@ public interface INote {
 
     /**
      *
+     * @return
      */
     public IVectorClock getVectorTime();
 }
