@@ -1,4 +1,4 @@
-package notizync.core;
+package notizync.core.api;
 
 import java.util.HashSet;
 
@@ -7,7 +7,7 @@ import java.util.HashSet;
  */
 public final class NotiRegistry implements INotiRegistry {
     private HashSet <IStorageProvider> storageProviders;
-    private HashSet <INoteDisplay> clients;
+    private HashSet <INoteUpdateListener> noteUpdateListeners;
 
     public NotiRegistry() {
 
@@ -19,7 +19,7 @@ public final class NotiRegistry implements INotiRegistry {
     }
 
     @Override
-    public boolean addNoteClient(INoteDisplay client) {
-        return clients.add(client);
+    public boolean addNoteUpdateListener(INoteUpdateListener noteUpdateListener) {
+        return noteUpdateListeners.add(noteUpdateListener);
     }
 }

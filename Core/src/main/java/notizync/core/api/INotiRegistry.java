@@ -1,4 +1,4 @@
-package notizync.core;
+package notizync.core.api;
 
 /**
  *
@@ -14,5 +14,5 @@ public interface INotiRegistry {
     /**
      *
      */
-    public boolean addNoteClient(INoteDisplay client);
+    public boolean addNoteUpdateListener(INoteUpdateListener noteUpdateListener);
 }

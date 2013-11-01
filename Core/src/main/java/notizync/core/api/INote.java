@@ -1,4 +1,6 @@
-package notizync.core;
+package notizync.core.api;
+
+import itc4j.Stamp;
 
 /**
  *
@@ -19,5 +21,5 @@ public interface INote {
      *
      * @return
      */
-    public IVectorClock getVectorTime();
+    public Stamp getStamp();
 }

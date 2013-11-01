@@ -1,4 +1,4 @@
-package notizync.core;
+package notizync.core.api;
 
 /**
  *
