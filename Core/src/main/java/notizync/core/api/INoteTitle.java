@@ -3,7 +3,7 @@ package notizync.core.api;
 /**
  *
  */
-public interface INoteTitel {
+public interface INoteTitle {
     /**
      *
      * @return

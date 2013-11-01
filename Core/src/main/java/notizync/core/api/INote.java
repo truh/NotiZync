@@ -9,7 +9,7 @@ public interface INote {
     /**
      * @return title of this note
      */
-    public INoteTitel getTitel();
+    public INoteTitle getTitle();
 
     /**
      *
