@@ -11,6 +11,7 @@ import java.util.Set;
  * An implementation of IStorageProvider based on the FTP protocol
  */
 public final class FTPStorageProvider implements IStorageProvider {
+
     /**
      *
      * @param ftpClient a FTPClient instance that should be used for storage
@@ -24,10 +25,12 @@ public final class FTPStorageProvider implements IStorageProvider {
      *
      * @param ftpClient a FTPClient instance that should be used for storage
      * @param remoteDirectory the path on the remote server where files should be stored
-     * @param ftpClientConfig
+     * @param ftpClientConfig configurations to apply to ftpClient
      */
     public FTPStorageProvider(FTPClient ftpClient, String remoteDirectory, FTPClientConfig ftpClientConfig) {
-        assert ftpClient != null;
+        if (ftpClient == null) {
+            throw new NullPointerException("FTPStorageProvider#FTPStorageProvider(,,) ftpClient must not be null!");
+        }
         if(ftpClientConfig != null) {
             ftpClient.configure(ftpClientConfig);
         }

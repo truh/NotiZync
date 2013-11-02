@@ -24,8 +24,9 @@ public interface INoteContent {
     public String[] getLines();
 
     /**
+     * Should return a readable representation of Content
      *
-     * @return
+     * @return readable representation
      */
     @Override
     public String toString();
