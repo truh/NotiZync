@@ -1,7 +1,6 @@
 package notizync.core.conflict;
 
 import notizync.core.api.INote;
-import notizync.core.conflict.IConflict;
 
 /**
  *
