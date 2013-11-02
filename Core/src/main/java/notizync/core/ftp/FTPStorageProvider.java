@@ -57,8 +57,6 @@ public final class FTPStorageProvider implements IStorageProvider {
      */
     @Override
     public INote putNote(INote note) {
-        this.sync();
-
         boolean exists = false;
         INote existing = null;
 
@@ -80,7 +78,6 @@ public final class FTPStorageProvider implements IStorageProvider {
 
         this.noteSet.add(note);
 
-        this.sync();
         return exists ? existing : null;
     }
 
@@ -89,7 +86,6 @@ public final class FTPStorageProvider implements IStorageProvider {
      */
     @Override
     public Set<INote> getNoteSet() {
-        this.sync();
         return new HashSet<>(this.noteSet);
     }
 
