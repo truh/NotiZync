@@ -30,3 +30,6 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# DoNotTrack
+DoNotTrack/

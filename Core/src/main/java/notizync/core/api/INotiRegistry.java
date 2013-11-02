@@ -1,9 +1,11 @@
 package notizync.core.api;
 
+import notizync.core.conflict.INegotiationRoutine;
+
 /**
  *
  */
-public interface INotiRegistry {
+public interface INotiRegistry extends INegotiationRoutine {
     /**
      *
      * @param storageProvider

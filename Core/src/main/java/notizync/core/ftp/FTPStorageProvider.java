@@ -3,9 +3,12 @@ package notizync.core.ftp;
 import notizync.core.api.INote;
 import notizync.core.api.INotiRegistry;
 import notizync.core.api.IStorageProvider;
+import notizync.core.conflict.IConflict;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -16,6 +19,7 @@ public final class FTPStorageProvider implements IStorageProvider {
     private INotiRegistry notiRegistry;
     private FTPClient ftpClient;
     private String remoteDirectory;
+    private HashSet<INote> noteSet;
 
     /**
      *
@@ -53,15 +57,40 @@ public final class FTPStorageProvider implements IStorageProvider {
      */
     @Override
     public INote putNote(INote note) {
-        return null;
+        this.sync();
+
+        boolean exists = false;
+        INote existing = null;
+
+        //compares title of new note to existing ones
+        for(Iterator<INote> iterator = this.noteSet.iterator(); iterator.hasNext(); existing = iterator.next()) {
+            if(existing.getTitle().toString().equals(note.getTitle().toString())) {
+                exists = true;
+                break;
+            }
+        }
+
+        if(exists) {
+            // which of the note should be kept
+            IConflict conflict = note.clash(existing);
+            note = this.notiRegistry.negotiate(conflict);
+
+            this.noteSet.remove(existing);
+        }
+
+        this.noteSet.add(note);
+
+        this.sync();
+        return exists ? existing : null;
     }
 
     /**
      * @return set of notes stored by this StorageProvider
      */
     @Override
-    public Set<? extends INote> getNoteSet() {
-        return null;
+    public Set<INote> getNoteSet() {
+        this.sync();
+        return new HashSet<>(this.noteSet);
     }
 
     /**
