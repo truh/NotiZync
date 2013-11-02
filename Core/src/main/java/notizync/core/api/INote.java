@@ -1,11 +1,13 @@
 package notizync.core.api;
 
-import itc4j.Stamp;
+import notizync.core.versionising.IVersionVector;
+
+import java.io.Serializable;
 
 /**
  *
  */
-public interface INote {
+public interface INote extends Serializable {
     /**
      * @return title of this note
      */
@@ -21,5 +23,5 @@ public interface INote {
      *
      * @return
      */
-    public Stamp getStamp();
+    public IVersionVector getVersion();
 }

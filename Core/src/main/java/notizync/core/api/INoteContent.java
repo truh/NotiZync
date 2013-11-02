@@ -1,9 +1,11 @@
 package notizync.core.api;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public interface INoteContent {
+public interface INoteContent extends Serializable {
     /**
      *
      * @return

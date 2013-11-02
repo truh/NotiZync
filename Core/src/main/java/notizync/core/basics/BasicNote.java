@@ -1,9 +1,9 @@
 package notizync.core.basics;
 
-import itc4j.Stamp;
 import notizync.core.api.INote;
 import notizync.core.api.INoteContent;
 import notizync.core.api.INoteTitle;
+import notizync.core.versionising.IVersionVector;
 
 /**
  * A basic immutable implementation for the INote interface
@@ -11,17 +11,17 @@ import notizync.core.api.INoteTitle;
 public final class BasicNote implements INote {
     private BasicNoteTitle noteTitle;
     private BasicNoteContent noteContent;
-    private Stamp stamp;
+    private IVersionVector version;
 
     /**
      * @param noteTitle
      * @param noteContent
-     * @param stamp
+     * @param version
      */
-    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, Stamp stamp) {
+    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, IVersionVector version) {
         this.noteTitle = noteTitle;
         this.noteContent = noteContent;
-        this.stamp = stamp;
+        this.version = version;
     }
 
     /**
@@ -44,7 +44,7 @@ public final class BasicNote implements INote {
      * @return
      */
     @Override
-    public Stamp getStamp() {
-        return this.stamp;
+    public IVersionVector getVersion() {
+        return this.version;
     }
 }
