@@ -15,4 +15,5 @@ public interface INotiRegistry {
      *
      */
     public boolean addNoteUpdateListener(INoteUpdateListener noteUpdateListener);
+
 }
