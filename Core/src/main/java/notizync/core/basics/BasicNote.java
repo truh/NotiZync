@@ -1,9 +1,13 @@
 package notizync.core.basics;
 
+import itc4j.Stamp;
 import notizync.core.api.INote;
 import notizync.core.api.INoteContent;
 import notizync.core.api.INoteTitle;
+import notizync.core.conflict.IConflict;
 import notizync.core.versionising.IVersionVector;
+
+import java.util.NoSuchElementException;
 
 /**
  * A basic immutable implementation for the INote interface
@@ -11,17 +15,17 @@ import notizync.core.versionising.IVersionVector;
 public final class BasicNote implements INote {
     private BasicNoteTitle noteTitle;
     private BasicNoteContent noteContent;
-    private IVersionVector version;
+    private Stamp stamp;
 
     /**
      * @param noteTitle
      * @param noteContent
-     * @param version
+     * @param stamp
      */
-    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, IVersionVector version) {
+    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, Stamp stamp) {
         this.noteTitle = noteTitle;
         this.noteContent = noteContent;
-        this.version = version;
+        this.stamp = stamp;
     }
 
     /**
@@ -44,7 +48,21 @@ public final class BasicNote implements INote {
      * @return
      */
     @Override
-    public IVersionVector getVersion() {
-        return this.version;
+    public Stamp getStamp() {
+        return this.stamp;
+    }
+
+    /**
+     * When causality is not clear, a conflict object should be created and passed to the NotiRegistry
+     *
+     * @param note conflicting note
+     * @return conflict
+     */
+    @Override
+    public IConflict clash(INote note) {
+
+
+
+        return null;
     }
 }

@@ -17,8 +17,9 @@ public interface IConflict {
      * @param solution the note that survived the conflict
      * @return returns true if the conflict was already solved before
      * throws RuntimeException if solution already is defined
+     * throws NullPointerException if solution=null
      */
-    public void solve(INote solution) throws RuntimeException;
+    public void solve(INote solution) throws RuntimeException, NullPointerException;
 
     /**
      *

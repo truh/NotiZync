@@ -1,7 +1,7 @@
 package notizync.core.api;
 
+import itc4j.Stamp;
 import notizync.core.conflict.IConflict;
-import notizync.core.versionising.IVersionVector;
 
 import java.io.Serializable;
 
@@ -24,7 +24,7 @@ public interface INote extends Serializable {
      *
      * @return
      */
-    public IVersionVector getVersion();
+    public Stamp getStamp();
 
     /**
      * When causality is not clear, a conflict object should be created and passed to the NotiRegistry
