@@ -20,7 +20,7 @@ import notizync.core.conflict.IConflict;
 import java.util.HashSet;
 
 /**
- *
+ * TODO maybe split it into multiple interfaces for both adding storage provider and update listener
  */
 public final class NotiRegistry implements INotiRegistry {
     private HashSet <IStorageProvider> storageProviders;
@@ -30,11 +30,27 @@ public final class NotiRegistry implements INotiRegistry {
 
     }
 
+    /**
+     * Register a storage provider
+     *
+     * TODO is registering storage providers really target-aimed?
+     *
+     * @param storageProvider the storage provider that should be registered
+     * @return was registering successful?
+     */
     @Override
     public boolean addStorageProvider(IStorageProvider storageProvider) {
         return storageProviders.add(storageProvider);
     }
 
+    /**
+     * Register a note update listener
+     *
+     * all the note update listeners should be informed when a update occurs
+     *
+     * @param noteUpdateListener the update listener that should be registered
+     * @return was registering successful?
+     */
     @Override
     public boolean addNoteUpdateListener(INoteUpdateListener noteUpdateListener) {
         return noteUpdateListeners.add(noteUpdateListener);

@@ -18,6 +18,7 @@ package notizync.core.basics;
 import notizync.core.api.INoteContent;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -26,17 +27,41 @@ import java.util.Iterator;
  */
 public final class BasicNoteContent implements INoteContent {
     private ArrayList<String> lines;
+
     /**
+     * Does nothing atm
+     */
+    private BasicNoteContent() {
+
+    }
+
+    /**
+     * Creates a NoteContent from a String array
+     * the String array should contain the lines of text
      *
-     * @param lines
+     * @param lines lines of text
      */
     public BasicNoteContent(String [] lines) {
+        this();
         this.lines = new ArrayList<>();
         Collections.addAll(this.lines, lines);
     }
 
     /**
-     * @return
+     * Creates a NoteContent from a Collection of Strings
+     *
+     * @param lines lines of text
+     */
+    public BasicNoteContent(Collection<String> lines) {
+        this();
+        this.lines = new ArrayList<>(lines);
+    }
+
+    /**
+     * The note content might be organised in multiple lines.
+     *
+     * @return number of lines the note has, 0 if not a single line otherwise
+     *         at least 1
      */
     @Override
     public int getLineCount() {
@@ -44,16 +69,22 @@ public final class BasicNoteContent implements INoteContent {
     }
 
     /**
-     * @param index
-     * @return
+     * Will return the line at given index
+     *
+     * @param index given index
+     * @return line at given index
+     *
+     * @throws IndexOutOfBoundsException {@link ArrayList#get(int)}
      */
     @Override
-    public String getLineAt(int index) {
+    public String getLineAt(int index) throws IndexOutOfBoundsException {
         return this.lines.get(index);
     }
 
     /**
-     * @return
+     * All the lines as a String array
+     *
+     * @return all the lines
      */
     @Override
     public String[] getLines() {

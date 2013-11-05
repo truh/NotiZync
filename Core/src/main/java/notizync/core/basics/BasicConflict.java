@@ -21,16 +21,44 @@ import notizync.core.conflict.IConflict;
 import java.util.NoSuchElementException;
 
 /**
- *
+ * A conflict occurs when there are two different notes with unclear causality
  */
 public final class BasicConflict implements IConflict {
     private boolean solved = false;
     private INote solution = null;
+
+    private INote local;
+    private INote remote;
+
+    /**
+     * Creates a basic conflict from two notes
+     *
+     * @param local local note
+     * @param remote remote note
+     */
+    public BasicConflict(INote local, INote remote) {
+        this.local = local;
+        this.remote = remote;
+    }
+
+    /**
+     * Problem solved?
+     *
+     * @return returns true if the problem is solved
+     */
     @Override
     public boolean isSolved() {
         return this.solved;
     }
 
+    /**
+     * Solves the problem with the given solution
+     *
+     * @param solution the note that survived the conflict
+     *
+     * @throws RuntimeException if solution already is defined
+     * @throws NullPointerException if solution=null
+     */
     @Override
     public void solve(INote solution) throws RuntimeException {
         if(isSolved()) {
@@ -44,18 +72,36 @@ public final class BasicConflict implements IConflict {
         }
     }
 
+    /**
+     * Local note
+     *
+     * @return local note
+     */
     @Override
     public INote getLocalNote() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.local;
     }
 
+    /**
+     * Remote note
+     *
+     * @return remote note
+     */
     @Override
     public INote getRemoteNote() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.remote;
     }
 
+    /**
+     * @return solution, defined by solve(INote)
+     *
+     * @throws NoSuchElementException if there is no solution yet
+     */
     @Override
     public INote getSolution() throws NoSuchElementException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if(!isSolved()) {
+            throw new NoSuchElementException("solution not defined (yet)!");
+        }
+        return this.solution;
     }
 }

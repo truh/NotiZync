@@ -18,18 +18,30 @@ package notizync.core.api;
 import notizync.core.conflict.INegotiationRoutine;
 
 /**
- *
+ * TODO maybe split it into multiple interfaces for both adding storage provider and update listener
  */
 public interface INotiRegistry extends INegotiationRoutine {
     /**
+     * Register a storage provider
      *
-     * @param storageProvider
-     * @return
+     * TODO is registering storage providers really target-aimed?
+     *
+     * @param storageProvider the storage provider that should be registered
+     * @return was registering successful? Depending on the implementation
+     *         a provider might only be allowed to get registered on the same
+     *         registry.
      */
     public boolean addStorageProvider(IStorageProvider storageProvider);
 
     /**
+     * Register a note update listener
      *
+     * all the note update listeners should be informed when a update occurs
+     *
+     * @param noteUpdateListener the update listener that should be registered
+     * @return was registering successful? Depending on the implementation
+     *         a listener might only be allowed to get registered on the same
+     *         registry.
      */
     public boolean addNoteUpdateListener(INoteUpdateListener noteUpdateListener);
 

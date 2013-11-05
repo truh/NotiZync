@@ -22,21 +22,27 @@ import java.io.Serializable;
  */
 public interface INoteContent extends Serializable {
     /**
+     * The note content might be organised in multiple lines.
      *
-     * @return
+     * @return number of lines the note has, 0 if not a single line otherwise
+     *         at least 1
      */
     public int getLineCount();
 
     /**
+     * Will return the line at given index
      *
-     * @param index
-     * @return
+     * @param index given index
+     * @return line at given index
+     *
+     * @throws IndexOutOfBoundsException if index < 0 || index >= lineCount
      */
-    public String getLineAt(int index);
+    public String getLineAt(int index) throws IndexOutOfBoundsException;
 
     /**
+     * All the lines as a String array
      *
-     * @return
+     * @return all the lines
      */
     public String[] getLines();
 

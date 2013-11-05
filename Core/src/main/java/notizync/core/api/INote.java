@@ -30,14 +30,15 @@ public interface INote extends Serializable {
     public INoteTitle getTitle();
 
     /**
-     *
-     * @return
+     * @return content (text) of this note
      */
     public INoteContent getContent();
 
     /**
+     * A Interval Tree Clock stamp, it is used for versioning so that always
+     * the newest version of a note will be showed.
      *
-     * @return
+     * @return stamp
      */
     public Stamp getStamp();
 

@@ -30,9 +30,11 @@ public final class BasicNote implements INote {
     private Stamp stamp;
 
     /**
-     * @param noteTitle
-     * @param noteContent
-     * @param stamp
+     * Assembles a note from its components
+     *
+     * @param noteTitle title
+     * @param noteContent content
+     * @param stamp stamp
      */
     public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, Stamp stamp) {
         this.noteTitle = noteTitle;
@@ -49,7 +51,7 @@ public final class BasicNote implements INote {
     }
 
     /**
-     * @return
+     * @return content (text) of this note
      */
     @Override
     public INoteContent getContent() {
@@ -57,7 +59,10 @@ public final class BasicNote implements INote {
     }
 
     /**
-     * @return
+     * A Interval Tree Clock stamp, it is used for versioning so that always
+     * the newest version of a note will be showed.
+     *
+     * @return stamp
      */
     @Override
     public Stamp getStamp() {

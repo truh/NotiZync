@@ -16,7 +16,7 @@
 package notizync.core.api;
 
 /**
- *
+ * TODO maybe remove it?
  */
 public class NoteSyncWorker {
 }

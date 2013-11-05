@@ -24,34 +24,40 @@ import java.util.NoSuchElementException;
  */
 public interface IConflict {
     /**
+     * Problem solved?
+     *
      * @return returns true if the problem is solved
      */
     public boolean isSolved();
 
     /**
+     * Solves the problem with the given solution
+     *
      * @param solution the note that survived the conflict
-     * @return returns true if the conflict was already solved before
-     * throws RuntimeException if solution already is defined
-     * throws NullPointerException if solution=null
+     *
+     * @throws RuntimeException if solution already is defined
+     * @throws NullPointerException if solution=null
      */
     public void solve(INote solution) throws RuntimeException, NullPointerException;
 
     /**
+     * Local note
      *
-     * @return
+     * @return local note
      */
     public INote getLocalNote();
 
     /**
+     * Remote note
      *
-     * @return
+     * @return remote note
      */
     public INote getRemoteNote();
 
     /**
+     * @return solution, defined by solve(INote)
      *
-     * @return
-     * throws NoSuchElementException if there is no solution yet
+     * @throws NoSuchElementException if there is no solution yet
      */
     public INote getSolution() throws NoSuchElementException;
 }
