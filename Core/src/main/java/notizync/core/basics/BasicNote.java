@@ -20,9 +20,6 @@ import notizync.core.api.INote;
 import notizync.core.api.INoteContent;
 import notizync.core.api.INoteTitle;
 import notizync.core.conflict.IConflict;
-import notizync.core.versionising.IVersionVector;
-
-import java.util.NoSuchElementException;
 
 /**
  * A basic immutable implementation for the INote interface
