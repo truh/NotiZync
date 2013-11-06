@@ -17,9 +17,7 @@ package notizync.core.basics;
 
 import notizync.core.api.INoteUpdateEvent;
 import notizync.core.api.INoteUpdateListener;
-import notizync.core.api.IStorageProvider;
 import notizync.core.api.IUpdateEventDistributor;
-import notizync.core.conflict.IConflict;
 
 import java.util.HashSet;
 
