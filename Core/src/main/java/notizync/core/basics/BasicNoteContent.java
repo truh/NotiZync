@@ -106,7 +106,7 @@ public final class BasicNoteContent implements INoteContent {
         }
 
         //noinspection StatementWithEmptyBody
-        for(; iterator.hasNext(); sb.append(iterator.next()));
+        for(; iterator.hasNext(); sb.append(iterator.next()).append('\n'));
 
         return sb.toString();
     }
