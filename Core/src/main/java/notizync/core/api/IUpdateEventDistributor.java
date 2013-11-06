@@ -18,7 +18,7 @@ package notizync.core.api;
 /**
  * TODO maybe split it into multiple interfaces for both adding storage provider and update listener
  */
-public interface IUpdateEventDistributor {
+public interface IUpdateEventDistributor extends INoteUpdateListener {
     /**
      * Register a note update listener
      *

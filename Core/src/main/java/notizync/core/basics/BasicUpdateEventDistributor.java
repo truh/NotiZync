@@ -13,22 +13,22 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package notizync.core.api;
+package notizync.core.basics;
 
+import notizync.core.api.INoteUpdateEvent;
+import notizync.core.api.INoteUpdateListener;
+import notizync.core.api.IStorageProvider;
+import notizync.core.api.IUpdateEventDistributor;
 import notizync.core.conflict.IConflict;
 
 import java.util.HashSet;
 
 /**
- * TODO maybe split it into multiple interfaces for both adding storage provider and update listener
+ *
  */
-public final class NotiRegistry implements IUpdateEventDistributor {
-    private HashSet <IStorageProvider> storageProviders;
+public final class BasicUpdateEventDistributor implements IUpdateEventDistributor {
     private HashSet <INoteUpdateListener> noteUpdateListeners;
 
-    public NotiRegistry() {
-
-    }
     /**
      * Register a note update listener
      *
@@ -43,13 +43,14 @@ public final class NotiRegistry implements IUpdateEventDistributor {
     }
 
     /**
-     * Tries to solve the given conflict
+     * Informs all the added update listeners
      *
-     * @param conflict the conflict that should be solved
-     * @return solution or null if no solution could be found
+     * @param noteUpdate new version of the note
      */
     @Override
-    public INote negotiate(IConflict conflict) {
-        return null;
+    public void noteUpdate(INoteUpdateEvent noteUpdate) {
+        for(INoteUpdateListener updateListener : this.noteUpdateListeners) {
+            updateListener.noteUpdate(noteUpdate);
+        }
     }
 }

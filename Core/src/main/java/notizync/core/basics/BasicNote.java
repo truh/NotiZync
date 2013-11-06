@@ -70,7 +70,7 @@ public final class BasicNote implements INote {
     }
 
     /**
-     * When causality is not clear, a conflict object should be created and passed to the NotiRegistry
+     * When causality is not clear, a conflict object should be created and passed to the BasicUpdateEventDistributor
      *
      * @param note conflicting note
      * @return conflict

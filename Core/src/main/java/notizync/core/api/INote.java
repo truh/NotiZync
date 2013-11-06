@@ -43,7 +43,7 @@ public interface INote extends Serializable {
     public Stamp getStamp();
 
     /**
-     * When causality is not clear, a conflict object should be created and passed to the NotiRegistry
+     * When causality is not clear, a conflict object should be created and passed to the BasicUpdateEventDistributor
      * @param note conflicting note
      * @return conflict
      */
