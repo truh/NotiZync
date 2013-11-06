@@ -16,7 +16,7 @@
 package notizync.core.ftp;
 
 import notizync.core.api.INote;
-import notizync.core.api.INotiRegistry;
+import notizync.core.api.IUpdateEventDistributor;
 import notizync.core.api.IStorageProvider;
 import notizync.core.conflict.IConflict;
 import org.apache.commons.net.ftp.FTPClient;
@@ -31,7 +31,7 @@ import java.util.Set;
  */
 public final class FTPStorageProvider implements IStorageProvider {
 
-    private INotiRegistry notiRegistry;
+    private IUpdateEventDistributor notiRegistry;
     private FTPClient ftpClient;
     private String remoteDirectory;
     private HashSet<INote> noteSet;
@@ -41,7 +41,7 @@ public final class FTPStorageProvider implements IStorageProvider {
      * @param ftpClient a FTPClient instance that should be used for storage
      * @param remoteDirectory the path on the remote server where files should be stored
      */
-    public FTPStorageProvider(INotiRegistry notiRegistry, FTPClient ftpClient, String remoteDirectory) {
+    public FTPStorageProvider(IUpdateEventDistributor notiRegistry, FTPClient ftpClient, String remoteDirectory) {
         this(notiRegistry, ftpClient, remoteDirectory, null);
     }
 
@@ -51,7 +51,7 @@ public final class FTPStorageProvider implements IStorageProvider {
      * @param remoteDirectory the path on the remote server where files should be stored
      * @param ftpClientConfig configurations to apply to ftpClient
      */
-    public FTPStorageProvider(INotiRegistry notiRegistry, FTPClient ftpClient, String remoteDirectory, FTPClientConfig ftpClientConfig) {
+    public FTPStorageProvider(IUpdateEventDistributor notiRegistry, FTPClient ftpClient, String remoteDirectory, FTPClientConfig ftpClientConfig) {
         if (ftpClient == null) {
             throw new NullPointerException("FTPStorageProvider#FTPStorageProvider(,,) ftpClient must not be null!");
         }

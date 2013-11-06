@@ -22,7 +22,7 @@ import java.util.HashSet;
 /**
  * TODO maybe split it into multiple interfaces for both adding storage provider and update listener
  */
-public final class NotiRegistry implements INotiRegistry {
+public final class NotiRegistry implements IUpdateEventDistributor {
     private HashSet <IStorageProvider> storageProviders;
     private HashSet <INoteUpdateListener> noteUpdateListeners;
 
