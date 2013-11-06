@@ -77,9 +77,9 @@ public final class BasicNote implements INote {
      */
     @Override
     public IConflict clash(INote note) {
+        BasicConflict conflict;
+        conflict = new BasicConflict(this, note);
 
-
-
-        return null;
+        return conflict;
     }
 }
