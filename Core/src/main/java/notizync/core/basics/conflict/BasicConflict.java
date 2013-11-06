@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package notizync.core.basics;
+package notizync.core.basics.conflict;
 
 import notizync.core.api.INote;
 import notizync.core.conflict.IConflict;
