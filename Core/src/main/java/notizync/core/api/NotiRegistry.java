@@ -29,20 +29,6 @@ public final class NotiRegistry implements INotiRegistry {
     public NotiRegistry() {
 
     }
-
-    /**
-     * Register a storage provider
-     *
-     * TODO is registering storage providers really target-aimed?
-     *
-     * @param storageProvider the storage provider that should be registered
-     * @return was registering successful?
-     */
-    @Override
-    public boolean addStorageProvider(IStorageProvider storageProvider) {
-        return storageProviders.add(storageProvider);
-    }
-
     /**
      * Register a note update listener
      *
