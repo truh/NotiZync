@@ -19,6 +19,7 @@ import notizync.core.api.INote;
 import notizync.core.api.IUpdateEventDistributor;
 import notizync.core.api.IStorageProvider;
 import notizync.core.conflict.IConflict;
+import notizync.core.conflict.INegotiator;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 
@@ -31,37 +32,44 @@ import java.util.Set;
  */
 public final class FTPStorageProvider implements IStorageProvider {
 
-    private IUpdateEventDistributor notiRegistry;
+    private IUpdateEventDistributor eventDistributor;
+    private INegotiator negotiator;
+
+    private IFTPLoginData loginData;
     private FTPClient ftpClient;
-    private String remoteDirectory;
+
     private HashSet<INote> noteSet;
 
     /**
      *
-     * @param ftpClient a FTPClient instance that should be used for storage
-     * @param remoteDirectory the path on the remote server where files should be stored
+     * @param eventDistributor distributor that should be informed
+     * @param negotiator negotiator that should solve the conflicts
+     * @param loginData login information
      */
-    public FTPStorageProvider(IUpdateEventDistributor notiRegistry, FTPClient ftpClient, String remoteDirectory) {
-        this(notiRegistry, ftpClient, remoteDirectory, null);
+    public FTPStorageProvider(IUpdateEventDistributor eventDistributor,
+                              INegotiator negotiator,
+                              IFTPLoginData loginData) {
+        this.eventDistributor = eventDistributor;
+        this.negotiator = negotiator;
+
+        this.loginData = loginData;
+        this.ftpClient = new FTPClient();
     }
 
     /**
      *
-     * @param ftpClient a FTPClient instance that should be used for storage
-     * @param remoteDirectory the path on the remote server where files should be stored
+     * @param eventDistributor distributor that should be informed
+     * @param negotiator negotiator that should solve the conflicts
+     * @param loginData login information
      * @param ftpClientConfig configurations to apply to ftpClient
      */
-    public FTPStorageProvider(IUpdateEventDistributor notiRegistry, FTPClient ftpClient, String remoteDirectory, FTPClientConfig ftpClientConfig) {
-        if (ftpClient == null) {
-            throw new NullPointerException("FTPStorageProvider#FTPStorageProvider(,,) ftpClient must not be null!");
-        }
-        if(ftpClientConfig != null) {
-            ftpClient.configure(ftpClientConfig);
-        }
+    public FTPStorageProvider(IUpdateEventDistributor eventDistributor,
+                              INegotiator negotiator,
+                              IFTPLoginData loginData,
+                              FTPClientConfig ftpClientConfig) {
+        this(eventDistributor, negotiator, loginData);
 
-        this.notiRegistry = notiRegistry;
-        this.ftpClient = ftpClient;
-        this.remoteDirectory = remoteDirectory;
+        this.ftpClient.configure(ftpClientConfig);
     }
 
     /**
@@ -76,7 +84,8 @@ public final class FTPStorageProvider implements IStorageProvider {
         INote existing = null;
 
         //compares title of new note to existing ones
-        for(Iterator<INote> iterator = this.noteSet.iterator(); iterator.hasNext(); existing = iterator.next()) {
+        for(Iterator<INote> iterator = this.noteSet.iterator();
+            iterator.hasNext(); existing = iterator.next()) {
             if(existing.getTitle().toString().equals(note.getTitle().toString())) {
                 exists = true;
                 break;
@@ -86,7 +95,7 @@ public final class FTPStorageProvider implements IStorageProvider {
         if(exists) {
             // which of the note should be kept
             IConflict conflict = note.clash(existing);
-            note = this.notiRegistry.negotiate(conflict);
+            note = this.negotiator.negotiate(conflict);
 
             this.noteSet.remove(existing);
         }
