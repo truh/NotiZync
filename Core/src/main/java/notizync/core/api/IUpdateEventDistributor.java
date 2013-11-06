@@ -15,8 +15,6 @@
  */
 package notizync.core.api;
 
-import notizync.core.conflict.INegotiationRoutine;
-
 /**
  * TODO maybe split it into multiple interfaces for both adding storage provider and update listener
  */
