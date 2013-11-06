@@ -28,6 +28,13 @@ public final class BasicUpdateEventDistributor implements IUpdateEventDistributo
     private HashSet <INoteUpdateListener> noteUpdateListeners;
 
     /**
+     * Default constructor
+     */
+    public BasicUpdateEventDistributor() {
+        this.noteUpdateListeners = new HashSet<>();
+    }
+
+    /**
      * Register a note update listener
      *
      * all the note update listeners should be informed when a update occurs
