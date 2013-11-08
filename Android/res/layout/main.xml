@@ -7,11 +7,34 @@
     <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="25"
-            android:id="@+id/scrollView"/>
+            android:id="@+id/scrollView">
+        <DialerFilter
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@android:id/hint"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hint"
+                    />
+            <EditText
+                    android:id="@android:id/primary"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/hint"
+                    android:text="Primary"
+                    />
+        </DialerFilter>
+    </ScrollView>
     <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Add Note"
             android:id="@+id/button" android:layout_gravity="bottom"/>
+    <Button
+            android:layout_width="326dp"
+            android:layout_height="80dp"
+            android:text="New Button"
+            android:id="@+id/button1" android:layout_gravity="center"/>
 </LinearLayout>
 
