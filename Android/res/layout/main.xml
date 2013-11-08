@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:paddingBottom="0dp" android:paddingTop="0dp">
-    <ScrollView
+
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListView
             android:layout_width="fill_parent"
-            android:layout_height="25"
-            android:id="@+id/scrollView"/>
+            android:layout_height="205dp"
+            android:id="@+id/listView"
+            android:layout_weight="0.43"/>
+
     <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Add Note"
-            android:id="@+id/button" android:layout_gravity="bottom"/>
+            android:text="@string/button_add"
+            android:id="@+id/button"
+            android:layout_gravity="bottom"/>
 </LinearLayout>
-
