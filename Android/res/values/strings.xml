@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NotiZync</string>
+    <string name="local_storage">Local Storage</string>
+    <string name="location">Location</string>
+    <string name="phone">Phone</string>
+    <string name="sd_card">SD Card</string>
+    <string name="ftp">FTP</string>
+    <string name="username">Username</string>
+    <string name="user">user</string>
+    <string name="password">Password</string>
+    <string name="remote_path">Remote Path</string>
 </resources>
