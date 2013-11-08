@@ -3,11 +3,15 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-        >
-    <TextView
+              android:paddingBottom="0dp" android:paddingTop="0dp">
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="25"
+            android:id="@+id/scrollView"/>
+    <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Test test,NotiZyncActivity"
-            />
+            android:text="Add Note"
+            android:id="@+id/button" android:layout_gravity="bottom"/>
 </LinearLayout>
 
