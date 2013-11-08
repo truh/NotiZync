@@ -8,7 +8,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Local Storage"
+            android:text="@string/local_storage"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal|top"/>
 
@@ -23,7 +23,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location"
+                android:text="@string/location"
                 android:id="@+id/textView2"
                 android:layout_row="0"
                 android:layout_column="0"/>
@@ -31,7 +31,7 @@
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phone"
+                android:text="@string/phone"
                 android:id="@+id/radioButton"
                 android:layout_row="1"
                 android:layout_column="1"
@@ -40,7 +40,7 @@
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SD Card"
+                android:text="@string/sd_card"
                 android:id="@+id/radioButton1"
                 android:layout_row="2"
                 android:layout_column="1"
@@ -55,7 +55,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FTP"
+            android:text="@string/ftp"
             android:id="@+id/textView1"
             android:layout_gravity="center_horizontal|top"/>
 
@@ -69,14 +69,14 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="@string/username"
                 android:id="@+id/textView3"
                 android:layout_gravity="left|center_vertical"/>
 
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="user"
+                android:text="@string/user"
                 android:id="@+id/editText"
                 android:editable="true"/>
 
@@ -88,7 +88,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/password"
                 android:id="@+id/textView4"
                 android:layout_gravity="left|center_vertical"/>
 
@@ -107,7 +107,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remote Path"
+                android:text="@string/remote_path"
                 android:id="@+id/textView5"
                 android:layout_gravity="left|center_vertical"/>
 
