@@ -15,28 +15,13 @@
  */
 package notizync.Android;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
+import android.view.View;
 
 /**
- *
  */
-public class NotiZyncActivity extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+public class ButtonListener {
 
-        setContentView(R.layout.main);
-    }
+    public void onOpenSettings(View view) {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
-
-        return super.onCreateOptionsMenu(menu);
     }
 }

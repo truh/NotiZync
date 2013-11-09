@@ -11,4 +11,5 @@
     <string name="password">Password</string>
     <string name="remote_path">Remote Path</string>
     <string name="button_add">ADD</string>
+    <string name="config">Config</string>
 </resources>
