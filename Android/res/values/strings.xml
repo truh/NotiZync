@@ -23,7 +23,7 @@
     <string name="sd_card">SD Card</string>
     <string name="ftp">FTP</string>
     <string name="username">Username</string>
-    <string name="user">user</string>
+    <string name="user_preset"></string>
     <string name="password">Password</string>
     <string name="remote_path">Remote Path</string>
     <string name="button_add">ADD</string>

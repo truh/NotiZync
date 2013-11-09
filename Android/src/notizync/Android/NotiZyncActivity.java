@@ -72,7 +72,7 @@ public class NotiZyncActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
 
         // MenuButton
-        MenuItem configButton = menu.getItem(R.id.configButton);
+        MenuItem configButton = menu.findItem(R.id.configButton);
         //ActionListener
         configButton.setOnMenuItemClickListener(this.buttonListener);
 
