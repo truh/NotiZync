@@ -51,6 +51,17 @@ public class LoremStorageProvider implements IStorageProvider {
     }
 
     /**
+     * Removes the given note
+     *
+     * @param note note to remove
+     * @return false if the given note did not exists
+     */
+    @Override
+    public boolean removeNote(INote note) {
+        return this.noteSet.remove(note);
+    }
+
+    /**
      * @return set of notes stored by this StorageProvider
      */
     @Override

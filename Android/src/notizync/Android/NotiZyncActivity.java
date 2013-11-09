@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 /**
  * Main Activity of NotiZync for Android
@@ -35,6 +36,8 @@ public class NotiZyncActivity extends Activity {
         buttonListener = new ButtonListener(this);
 
         setContentView(R.layout.main);
+
+        View mainView = findViewById(R.layout.main);
     }
 
     /**
