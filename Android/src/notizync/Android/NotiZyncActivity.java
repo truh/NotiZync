@@ -18,11 +18,13 @@ package notizync.Android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 /**
  *
  */
 public class NotiZyncActivity extends Activity {
+    private ButtonListener buttonListener;
     /**
      * Called when the activity is first created.
      */
@@ -30,13 +32,22 @@ public class NotiZyncActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        buttonListener = new ButtonListener(this);
+
         setContentView(R.layout.main);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
+        boolean superResult = super.onCreateOptionsMenu(menu);
+        //adding menu
+        getMenuInflater().inflate(R.menu.main, menu);
 
-        return super.onCreateOptionsMenu(menu);
+        // MenuButton
+        MenuItem configButton = menu.getItem(R.id.configButton);
+        //ActionListener
+        configButton.setOnMenuItemClickListener(this.buttonListener);
+
+        return superResult;
     }
 }

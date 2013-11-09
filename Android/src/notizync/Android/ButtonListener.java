@@ -15,13 +15,30 @@
  */
 package notizync.Android;
 
-import android.view.View;
+import android.app.Activity;
+import android.view.MenuItem;
 
 /**
  */
-public class ButtonListener {
+public class ButtonListener implements MenuItem.OnMenuItemClickListener {
+    private Activity activity;
 
-    public void onOpenSettings(View view) {
+    public ButtonListener(Activity activity) {
+        this.activity = activity;
+    }
 
+    /**
+     * Called when a menu item has been invoked.  This is the first code
+     * that is executed; if it returns true, no other callbacks will be
+     * executed.
+     *
+     * @param item The menu item that was invoked.
+     * @return Return true to consume this click and prevent others from
+     *         executing.
+     */
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        this.activity.setContentView(R.layout.config);
+        return true;
     }
 }
