@@ -28,4 +28,6 @@
     <string name="remote_path">Remote Path</string>
     <string name="button_add">ADD</string>
     <string name="config">Config</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>
