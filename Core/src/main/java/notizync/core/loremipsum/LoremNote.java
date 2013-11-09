@@ -15,23 +15,30 @@
  */
 package notizync.core.loremipsum;
 
-import itc4j.Stamp;
-import notizync.core.api.INote;
 import notizync.core.api.INoteContent;
 import notizync.core.api.INoteTitle;
 import notizync.core.basics.AbstractNote;
-import notizync.core.conflict.IConflict;
 
 /**
  *
  */
 public class LoremNote extends AbstractNote {
+    private LoremNoteTitle title;
+    private LoremNoteContent content;
+
+    /**
+     * Default constructor
+     */
+    public LoremNote() {
+        this.title = new LoremNoteTitle();
+        this.content = new LoremNoteContent();
+    }
     /**
      * @return title of this note
      */
     @Override
     public INoteTitle getTitle() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.title;
     }
 
     /**
@@ -39,6 +46,6 @@ public class LoremNote extends AbstractNote {
      */
     @Override
     public INoteContent getContent() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.content;
     }
 }
