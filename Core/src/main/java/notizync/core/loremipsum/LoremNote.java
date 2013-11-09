@@ -19,12 +19,13 @@ import itc4j.Stamp;
 import notizync.core.api.INote;
 import notizync.core.api.INoteContent;
 import notizync.core.api.INoteTitle;
+import notizync.core.basics.AbstractNote;
 import notizync.core.conflict.IConflict;
 
 /**
  *
  */
-public class LoremNote implements INote {
+public class LoremNote extends AbstractNote {
     /**
      * @return title of this note
      */
@@ -38,28 +39,6 @@ public class LoremNote implements INote {
      */
     @Override
     public INoteContent getContent() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /**
-     * A Interval Tree Clock stamp, it is used for versioning so that always
-     * the newest version of a note will be showed.
-     *
-     * @return stamp
-     */
-    @Override
-    public Stamp getStamp() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /**
-     * When causality is not clear, a conflict object should be created and passed to the BasicUpdateEventDistributor
-     *
-     * @param note conflicting note
-     * @return conflict
-     */
-    @Override
-    public IConflict clash(INote note) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
