@@ -30,7 +30,7 @@ public class LoremNoteContent extends AbstractNoteContent {
      * creates a content with 50 lorem ipsum words
      */
     public LoremNoteContent() {
-        this(20, 10);
+        this(7, 30);
     }
 
     /**
