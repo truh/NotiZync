@@ -15,15 +15,14 @@
  */
 package notizync.core.loremipsum;
 
-import notizync.core.api.INoteContent;
+import notizync.core.basics.AbstractNoteContent;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  *
  */
-public class LoremNoteContent implements INoteContent {
+public class LoremNoteContent extends AbstractNoteContent {
     private ArrayList<String> lines;
 
     /**
@@ -63,28 +62,6 @@ public class LoremNoteContent implements INoteContent {
             this.lines.add(line);
         }
     }
-    /**
-     * The note content might be organised in multiple lines.
-     *
-     * @return number of lines the note has, 0 if not a single line otherwise
-     *         at least 1
-     */
-    @Override
-    public int getLineCount() {
-        return this.lines.size();
-    }
-
-    /**
-     * Will return the line at given index
-     *
-     * @param index given index
-     * @return line at given index
-     * @throws IndexOutOfBoundsException if index < 0 || index >= lineCount
-     */
-    @Override
-    public String getLineAt(int index) throws IndexOutOfBoundsException {
-        return this.lines.get(index);
-    }
 
     /**
      * All the lines as a String array
@@ -94,25 +71,5 @@ public class LoremNoteContent implements INoteContent {
     @Override
     public String[] getLines() {
         return (String[])this.lines.toArray();
-    }
-
-    /**
-     * Should return a readable representation of Content
-     *
-     * @return readable representation
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        Iterator<String> iterator = this.lines.iterator();
-        if(iterator.hasNext()) {
-            sb.append(iterator.next());
-        }
-
-        //noinspection StatementWithEmptyBody
-        for(; iterator.hasNext(); sb.append(iterator.next()).append('\n'));
-
-        return sb.toString();
     }
 }
