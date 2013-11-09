@@ -21,7 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /**
- *
+ * Main Activity of NotiZync for Android
  */
 public class NotiZyncActivity extends Activity {
     private ButtonListener buttonListener;
