@@ -159,21 +159,6 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/server"
-                        android:id="@+id/textView3"
-                        android:layout_gravity="left|center_vertical"/>
-
-                <EditText
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/httpserver_preset"
-                        android:id="@+id/editText"
-                        android:editable="true"
-                        />
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/username"
                         android:id="@+id/textView3"
                         android:layout_gravity="left|center_vertical"/>
@@ -206,20 +191,21 @@
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
 
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Button"
+                android:text="Save"
                 android:id="@+id/button"
                 android:layout_gravity="center"/>
 
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Button"
+                android:text="Cancel"
                 android:id="@+id/button1"
                 android:layout_gravity="center"/>
 
