@@ -16,6 +16,7 @@
 package notizync.Android;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,16 +28,19 @@ import android.widget.Button;
  * Main Activity of NotiZync for Android
  */
 public class NotiZyncActivity extends Activity {
-    private ButtonListener buttonListener;
+    public static final String TAG = "NotiZyncActivity";
+    public static final String PREFERENCES_NAME = "NotiZync.pref";
+
+    private OpenConfigMenuListener openConfigMenuListener;
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("", "Activity created");
+        Log.i(TAG, "Activity created");
 
-        buttonListener = new ButtonListener(this);
+        openConfigMenuListener = new OpenConfigMenuListener(this);
 
         setContentView(R.layout.main);
     }
@@ -78,7 +82,7 @@ public class NotiZyncActivity extends Activity {
         // MenuButton
         MenuItem configButton = menu.findItem(R.id.configButton);
         //ActionListener
-        configButton.setOnMenuItemClickListener(this.buttonListener);
+        configButton.setOnMenuItemClickListener(this.openConfigMenuListener);
 
         return superResult;
     }
@@ -92,6 +96,7 @@ public class NotiZyncActivity extends Activity {
         configSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "buttonConfigSave clicked");
                 //save state
                 //return to main view
                 NotiZyncActivity.this.setContentView(R.layout.main);
@@ -100,6 +105,7 @@ public class NotiZyncActivity extends Activity {
         configCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "buttonConfigCancel clicked");
                 //return to main view
                 NotiZyncActivity.this.setContentView(R.layout.main);
             }

@@ -16,16 +16,21 @@
 package notizync.Android;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.view.MenuItem;
 
 /**
  * Listening for Button clicks
  */
-public class ButtonListener implements MenuItem.OnMenuItemClickListener {
+public class OpenConfigMenuListener implements MenuItem.OnMenuItemClickListener {
     private Activity activity;
+    private SharedPreferences preferences;
 
-    public ButtonListener(Activity activity) {
+    public OpenConfigMenuListener(Activity activity) {
         this.activity = activity;
+        this.preferences = activity.getApplicationContext()
+                .getSharedPreferences(NotiZyncActivity.PREFERENCES_NAME, activity.MODE_PRIVATE);
+
     }
 
     /**
