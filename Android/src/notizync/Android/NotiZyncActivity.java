@@ -17,9 +17,11 @@ package notizync.Android;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * Main Activity of NotiZync for Android
@@ -32,12 +34,11 @@ public class NotiZyncActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("", "Activity created");
 
         buttonListener = new ButtonListener(this);
 
         setContentView(R.layout.main);
-
-        View mainView = findViewById(R.layout.main);
     }
 
     /**
@@ -80,5 +81,28 @@ public class NotiZyncActivity extends Activity {
         configButton.setOnMenuItemClickListener(this.buttonListener);
 
         return superResult;
+    }
+
+    private void registerButtonListener() {
+        //get buttons
+        Button configSave = (Button) findViewById(R.id.buttonConfigSave);
+        Button configCancel = (Button) findViewById(R.id.buttonConfigCancel);
+
+        //register listener
+        configSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //save state
+                //return to main view
+                NotiZyncActivity.this.setContentView(R.layout.main);
+            }
+        });
+        configCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //return to main view
+                NotiZyncActivity.this.setContentView(R.layout.main);
+            }
+        });
     }
 }
