@@ -40,14 +40,6 @@ public interface IStorageProvider
     public boolean removeNote(INote note);
 
     /**
-     * Removes the given note
-     *
-     * @param note note to remove
-     * @return false if the given note did not exists
-     */
-    public boolean removeNote(INote note);
-
-    /**
      * @return set of notes stored by this StorageProvider
      */
     public Set<? extends INote> getNoteSet();

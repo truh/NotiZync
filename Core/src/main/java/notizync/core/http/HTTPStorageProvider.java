@@ -1,17 +1,25 @@
 package notizync.core.http;
 
+import com.google.gson.Gson;
 import notizync.core.api.INote;
 import notizync.core.api.IStorageProvider;
 import notizync.core.api.IUpdateEventDistributor;
 import notizync.core.conflict.IConflict;
 import notizync.core.conflict.INegotiator;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+import org.apache.http.*;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 
 /**
  * An implementation of IStorageProvider based on the HTTP Protocol and an Web-API.
@@ -26,38 +34,25 @@ public class HTTPStorageProvider
     private IUpdateEventDistributor eventDistributor;
     private INegotiator negotiator;
 
-    private String username;
-    private String password;
+    private CloseableHttpClient backend;
+    private Gson json;
 
-    private HttpURLConnection backend;
-
+    private String token;
     private HashSet<INote> noteSet;
 
-    /**
-     *
-     * @param eventDistributor
-     * @param negotiator
-     * @param username
-     * @param password
-     */
     public HTTPStorageProvider(IUpdateEventDistributor eventDistributor,
                               INegotiator negotiator,
                               String username,
                               String password)
+            throws HTTPStoreException
     {
         this.eventDistributor = eventDistributor;
         this.negotiator = negotiator;
 
-        this.username = username;
-        this.password = password;
+        this.backend = HttpClients.createDefault();
+        this.json = new Gson();
 
-        try {
-            this.backend = (HttpURLConnection) new URL("").openConnection();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        if(!this.doLogin(username, password)) throw new HTTPStoreException("Logon failed");
     }
 
     /**
@@ -68,7 +63,7 @@ public class HTTPStorageProvider
      */
     @Override
     public INote putNote(INote note)
-        throws HttpStoreException
+            throws HTTPStoreException
     {
         boolean exists = false;
         INote existing = null;
@@ -91,11 +86,11 @@ public class HTTPStorageProvider
             note = this.negotiator.negotiate(conflict);
 
             this.noteSet.remove(existing);
-            if(!this.updateNote(note)) throw new HttpStoreException();
+            if(!this.removeNote(note)) throw new HTTPStoreException("Transport error while removing the Note!\nEither the API is down or refused to communicate with us.");
         }
         else
         {
-            if(!this.storeNote(note)) throw new HttpStoreException();
+            if(!this.storeNote(note)) throw new HTTPStoreException("Transport error while storing the Note!\nEither the API is down or refused to communicate with us.");
         }
 
         this.noteSet.add(note);
@@ -103,19 +98,94 @@ public class HTTPStorageProvider
         return exists ? existing : null;
     }
 
-    public boolean updateNote(INote note)
+    /**
+     * Send a login request to the backend, containing username and password.
+     *
+     * @param username Plain-Text Username
+     * @param password Plain-Text Password
+     * @return true if the login was successful, false if not
+     */
+    private boolean doLogin(String username, String password)
     {
+        List<NameValuePair> data = new ArrayList<>();
+        data.add(new BasicNameValuePair("username", username));
+        data.add(new BasicNameValuePair("password", password));
+
+        String raw = this.sendPost(WebAPI.getAPI("IUser", "OAuth"), data);
+        if(raw == null) return false;
+
+        HTTPLoginResponse parsed = this.json.fromJson(raw, HTTPLoginResponse.class);
+
+        if(parsed.success)
+        {
+            this.token = parsed.session_data.token;
+            return true;
+        }
         return false;
     }
 
     public boolean storeNote(INote note)
     {
+        List<NameValuePair> data = new ArrayList<>();
+        data.add(new BasicNameValuePair("title", note.getTitle().toString()));
+        data.add(new BasicNameValuePair("content", note.getContent().toString()));
+        data.add(new BasicNameValuePair("stamp", note.getStamp().toString()));
+
+        String raw = this.sendPost(WebAPI.getAPI("INote", "StoreNote"), data);
+        if(raw == null) return false;
+
+        HTTPNoteResponse parsed = this.json.fromJson(raw, HTTPNoteResponse.class);
+
+        if(parsed.success) return true;
         return false;
     }
 
     public boolean removeNote(INote note)
     {
+        List<NameValuePair> data = new ArrayList<>();
+        data.add(new BasicNameValuePair("title", note.getTitle().toString()));
+
+        String raw = this.sendPost(WebAPI.getAPI("INote", "RemoveNote"), data);
+        if(raw == null) return false;
+
+        HTTPNoteResponse parsed = this.json.fromJson(raw, HTTPNoteResponse.class);
+
+        if(parsed.success) return true;
         return false;
+    }
+
+    private String sendPost(String url, List<NameValuePair> data)
+    {
+        HttpPost request = new HttpPost(url);
+
+        try
+        {
+            request.setEntity(new UrlEncodedFormEntity(data));
+            HttpResponse response = this.backend.execute(request);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String line = "";
+            String raw = "";
+
+            while((line = reader.readLine()) != null)
+            {
+                raw += line;
+            }
+
+            return raw;
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return null;
+        }
+        catch (ClientProtocolException e)
+        {
+            return null;
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
     }
 
     /**
