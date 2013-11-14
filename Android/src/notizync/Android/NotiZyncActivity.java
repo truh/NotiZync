@@ -16,6 +16,7 @@
 package notizync.Android;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -28,7 +29,9 @@ import android.widget.Button;
  */
 public class NotiZyncActivity extends Activity {
     public static final String TAG = "NotiZyncActivity";
-    private ButtonListener buttonListener;
+    public static final String PREFERENCES_NAME = "NotiZync.pref";
+
+    private OpenConfigMenuListener openConfigMenuListener;
     /**
      * Called when the activity is first created.
      */
@@ -37,7 +40,7 @@ public class NotiZyncActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "Activity created");
 
-        buttonListener = new ButtonListener(this);
+        openConfigMenuListener = new OpenConfigMenuListener(this);
 
         setContentView(R.layout.main);
     }
@@ -79,7 +82,7 @@ public class NotiZyncActivity extends Activity {
         // MenuButton
         MenuItem configButton = menu.findItem(R.id.configButton);
         //ActionListener
-        configButton.setOnMenuItemClickListener(this.buttonListener);
+        configButton.setOnMenuItemClickListener(this.openConfigMenuListener);
 
         return superResult;
     }
