@@ -30,4 +30,8 @@
     <string name="config">Config</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="ftpserver_preset">ftp://127.0.0.1:21</string>
+    <string name="server">Server</string>
+    <string name="http">Web API</string>
+    <string name="httpserver_preset">http://127.0.0.1:80</string>
 </resources>

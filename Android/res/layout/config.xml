@@ -19,100 +19,209 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/local_storage"
-            android:id="@+id/textView"
-            android:layout_gravity="center_horizontal|top"/>
 
-    <LinearLayout
-            android:orientation="vertical"
+    <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="118dp"
-            android:paddingLeft="20dp">
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView_Config"
+            android:layout_weight="2.3">
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/location"
-                android:id="@+id/textView2"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
 
-        <RadioGroup
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="10dp">
-
-            <RadioButton
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/phone"
-                    android:id="@+id/radioButton"/>
+                    android:text="@string/local_storage"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center_horizontal|top"/>
 
-            <RadioButton
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="118dp"
+                    android:paddingLeft="20dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/location"
+                        android:id="@+id/textView2"/>
+
+                <RadioGroup
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:paddingLeft="10dp">
+
+                    <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/phone"
+                            android:id="@+id/radioButton"/>
+
+                    <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sd_card"
+                            android:id="@+id/radioButton1"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sd_card"
-                    android:id="@+id/radioButton1"/>
-        </RadioGroup>
-    </LinearLayout>
+                    android:text="@string/ftp"
+                    android:id="@+id/textView1"
+                    android:layout_gravity="center_horizontal|top"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ftp"
-            android:id="@+id/textView1"
-            android:layout_gravity="center_horizontal|top"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/server"
+                        android:id="@+id/textView3"
+                        android:layout_gravity="left|center_vertical"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ftpserver_preset"
+                        android:id="@+id/editText"
+                        android:editable="true"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/username"
+                        android:id="@+id/textView3"
+                        android:layout_gravity="left|center_vertical"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_preset"
+                        android:id="@+id/editText"
+                        android:editable="true"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/password"
+                        android:id="@+id/textView4"
+                        android:layout_gravity="left|center_vertical"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editText1"
+                        android:password="true"
+                        android:editable="true"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remote_path"
+                        android:id="@+id/textView5"
+                        android:layout_gravity="left|center_vertical"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="./"
+                        android:id="@+id/editText2"
+                        android:editable="true"/>
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/http"
+                    android:id="@+id/textView1"
+                    android:layout_gravity="center_horizontal|top"/>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/server"
+                        android:id="@+id/textView3"
+                        android:layout_gravity="left|center_vertical"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/httpserver_preset"
+                        android:id="@+id/editText"
+                        android:editable="true"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/username"
+                        android:id="@+id/textView3"
+                        android:layout_gravity="left|center_vertical"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_preset"
+                        android:id="@+id/editText"
+                        android:editable="true"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/password"
+                        android:id="@+id/textView4"
+                        android:layout_gravity="left|center_vertical"/>
+
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editText1"
+                        android:password="true"
+                        android:editable="true"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:layout_height="wrap_content">
 
-        <TextView
+        <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/username"
-                android:id="@+id/textView3"
-                android:layout_gravity="left|center_vertical"/>
+                android:text="New Button"
+                android:id="@+id/button"
+                android:layout_gravity="center"/>
 
-        <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_preset"
-                android:id="@+id/editText"
-                android:editable="true"
-                />
-
-        <TextView
+        <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/password"
-                android:id="@+id/textView4"
-                android:layout_gravity="left|center_vertical"/>
+                android:text="New Button"
+                android:id="@+id/button1"
+                android:layout_gravity="center"/>
 
-        <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText1"
-                android:password="true"
-                android:editable="true"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/remote_path"
-                android:id="@+id/textView5"
-                android:layout_gravity="left|center_vertical"/>
-
-        <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="./"
-                android:id="@+id/editText2"
-                android:editable="true"/>
     </LinearLayout>
-
 </LinearLayout>
