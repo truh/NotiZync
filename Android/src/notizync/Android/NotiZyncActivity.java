@@ -27,6 +27,7 @@ import android.widget.Button;
  * Main Activity of NotiZync for Android
  */
 public class NotiZyncActivity extends Activity {
+    public static final String TAG = "NotiZyncActivity";
     private ButtonListener buttonListener;
     /**
      * Called when the activity is first created.
@@ -34,7 +35,7 @@ public class NotiZyncActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("", "Activity created");
+        Log.i(TAG, "Activity created");
 
         buttonListener = new ButtonListener(this);
 
@@ -92,6 +93,7 @@ public class NotiZyncActivity extends Activity {
         configSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "buttonConfigSave clicked");
                 //save state
                 //return to main view
                 NotiZyncActivity.this.setContentView(R.layout.main);
@@ -100,6 +102,7 @@ public class NotiZyncActivity extends Activity {
         configCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "buttonConfigCancel clicked");
                 //return to main view
                 NotiZyncActivity.this.setContentView(R.layout.main);
             }
