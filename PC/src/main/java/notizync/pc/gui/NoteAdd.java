@@ -1,5 +1,7 @@
 package notizync.pc.gui;
 
+import javax.swing.*;
+
 /**
  * -- DESCRIPTION --
  *
@@ -8,5 +10,7 @@ package notizync.pc.gui;
  * @since 07.11.13 10:45
  */
 public class NoteAdd
+    extends JFrame
 {
+
 }

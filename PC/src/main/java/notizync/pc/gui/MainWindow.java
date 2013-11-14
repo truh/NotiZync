@@ -16,7 +16,10 @@ public class MainWindow extends JFrame
         super("NotiZync");
         this.setSize(600, 480);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
         this.setResizable(false);
+
+        MenuBar bar = new MenuBar();
+        this.setJMenuBar(bar.createBar());
+        this.setVisible(true);
     }
 }
