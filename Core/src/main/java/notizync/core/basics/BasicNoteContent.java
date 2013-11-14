@@ -15,24 +15,21 @@
  */
 package notizync.core.basics;
 
-import notizync.core.api.INoteContent;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 /**
  * A basic immutable implementation for the INoteContent interface
  */
-public final class BasicNoteContent implements INoteContent {
+public final class BasicNoteContent extends AbstractNoteContent {
     private ArrayList<String> lines;
 
     /**
-     * Does nothing atm
+     * Does not do much
      */
     private BasicNoteContent() {
-
+        this.lines = new ArrayList<>();
     }
 
     /**
@@ -43,7 +40,6 @@ public final class BasicNoteContent implements INoteContent {
      */
     public BasicNoteContent(String [] lines) {
         this();
-        this.lines = new ArrayList<>();
         Collections.addAll(this.lines, lines);
     }
 
@@ -54,31 +50,7 @@ public final class BasicNoteContent implements INoteContent {
      */
     public BasicNoteContent(Collection<String> lines) {
         this();
-        this.lines = new ArrayList<>(lines);
-    }
-
-    /**
-     * The note content might be organised in multiple lines.
-     *
-     * @return number of lines the note has, 0 if not a single line otherwise
-     *         at least 1
-     */
-    @Override
-    public int getLineCount() {
-        return this.lines.size();
-    }
-
-    /**
-     * Will return the line at given index
-     *
-     * @param index given index
-     * @return line at given index
-     *
-     * @throws IndexOutOfBoundsException {@link ArrayList#get(int)}
-     */
-    @Override
-    public String getLineAt(int index) throws IndexOutOfBoundsException {
-        return this.lines.get(index);
+        this.lines.addAll(lines);
     }
 
     /**
@@ -89,25 +61,5 @@ public final class BasicNoteContent implements INoteContent {
     @Override
     public String[] getLines() {
         return (String[])this.lines.toArray();
-    }
-
-    /**
-     * Should return a readable representation of Content
-     *
-     * @return readable representation
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        Iterator <String>iterator = this.lines.iterator();
-        if(iterator.hasNext()) {
-            sb.append(iterator.next());
-        }
-
-        //noinspection StatementWithEmptyBody
-        for(; iterator.hasNext(); sb.append(iterator.next()).append('\n'));
-
-        return sb.toString();
     }
 }

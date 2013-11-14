@@ -23,39 +23,42 @@ import notizync.core.basics.conflict.BasicConflict;
 import notizync.core.conflict.IConflict;
 
 /**
- * A basic immutable implementation for the INote interface
+ *
  */
-public final class BasicNote extends AbstractNote {
-    private BasicNoteTitle noteTitle;
-    private BasicNoteContent noteContent;
-    private Stamp stamp;
-
-    /**
-     * Assembles a note from its components
-     *
-     * @param noteTitle title
-     * @param noteContent content
-     * @param stamp stamp
-     */
-    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, Stamp stamp) {
-        this.noteTitle = noteTitle;
-        this.noteContent = noteContent;
-        this.stamp = stamp;
-    }
-
+public abstract class AbstractNote implements INote {
     /**
      * @return title of this note
      */
-    @Override
-    public INoteTitle getTitle() {
-        return this.noteTitle;
-    }
+    public abstract INoteTitle getTitle();
 
     /**
      * @return content (text) of this note
      */
+    public abstract INoteContent getContent();
+
+    /**
+     * A Interval Tree Clock stamp, it is used for versioning so that always
+     * the newest version of a note will be showed.
+     *
+     * @return stamp
+     */
     @Override
-    public INoteContent getContent() {
-        return this.noteContent;
+    public Stamp getStamp() {
+        return new Stamp(); //TODO something more usefull is future!
+    }
+
+    /**
+     * When causality is not clear, a conflict object should be created and
+     * passed to the BasicUpdateEventDistributor
+     *
+     * @param note conflicting note
+     * @return conflict
+     */
+    @Override
+    public IConflict clash(INote note) {
+        BasicConflict conflict;
+        conflict = new BasicConflict(this, note);
+
+        return conflict;
     }
 }

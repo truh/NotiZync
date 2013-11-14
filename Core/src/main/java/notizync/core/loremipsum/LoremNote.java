@@ -13,42 +13,32 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  */
-package notizync.core.basics;
+package notizync.core.loremipsum;
 
-import itc4j.Stamp;
-import notizync.core.api.INote;
 import notizync.core.api.INoteContent;
 import notizync.core.api.INoteTitle;
-import notizync.core.basics.conflict.BasicConflict;
-import notizync.core.conflict.IConflict;
+import notizync.core.basics.AbstractNote;
 
 /**
- * A basic immutable implementation for the INote interface
+ *
  */
-public final class BasicNote extends AbstractNote {
-    private BasicNoteTitle noteTitle;
-    private BasicNoteContent noteContent;
-    private Stamp stamp;
+public class LoremNote extends AbstractNote {
+    private LoremNoteTitle title;
+    private LoremNoteContent content;
 
     /**
-     * Assembles a note from its components
-     *
-     * @param noteTitle title
-     * @param noteContent content
-     * @param stamp stamp
+     * Default constructor
      */
-    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, Stamp stamp) {
-        this.noteTitle = noteTitle;
-        this.noteContent = noteContent;
-        this.stamp = stamp;
+    public LoremNote() {
+        this.title = new LoremNoteTitle();
+        this.content = new LoremNoteContent();
     }
-
     /**
      * @return title of this note
      */
     @Override
     public INoteTitle getTitle() {
-        return this.noteTitle;
+        return this.title;
     }
 
     /**
@@ -56,6 +46,6 @@ public final class BasicNote extends AbstractNote {
      */
     @Override
     public INoteContent getContent() {
-        return this.noteContent;
+        return this.content;
     }
 }
