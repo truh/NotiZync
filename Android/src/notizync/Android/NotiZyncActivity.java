@@ -129,6 +129,7 @@ public class NotiZyncActivity extends Activity {
      */
     private void setupListAdapter() {
         ListView listView = (ListView) findViewById(R.id.listViewNotes);
+        if(listView == null) Log.i(TAG, "setupListAdapter listView == null");
 
         // "this" is the containing activity.
         // "android.R.layout.simple_list_item_1" is a predefined item that is
@@ -139,22 +140,27 @@ public class NotiZyncActivity extends Activity {
         /*listAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, spirits); */
         // listen to an ItemClick event
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 INote note = (INote) listAdapter.getItem(position);
+                if(note == null) Log.i(TAG, "onItemClickListener note == null");
                 INoteTitle title = note.getTitle();
+                if(note == null) Log.i(TAG, "onItemClickListener title == null");
                 Toast.makeText(getApplicationContext(),
                         "Click ListItem Number " + position + ": " + title.toString(), Toast.LENGTH_SHORT)
                         .show();
             }
-        });
+        };
+        listView.setOnItemClickListener(onItemClickListener);
         // listen to an ItemLongClick event
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view,
                                            int position, long id) {
                 INote note = (INote) listAdapter.getItem(position);
+                if(note == null) Log.i(TAG, "onItemLongClickListener note == null");
                 INoteTitle title = note.getTitle();
+                if(note == null) Log.i(TAG, "onItemLongClickListener title == null");
                 Toast.makeText(getApplicationContext(),
                         "LongClick ListItem Number " + position + ": " + title.toString(), Toast.LENGTH_LONG)
                         .show();
@@ -162,7 +168,8 @@ public class NotiZyncActivity extends Activity {
                 // don't use the event again?
                 return false;
             }
-        });
+        };
+        listView.setOnItemLongClickListener(onItemLongClickListener);
         // connecting the list adapter to this ListActivity
         listView.setAdapter(listAdapter);
     }
