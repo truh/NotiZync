@@ -52,7 +52,11 @@ public class NoteTitleView extends Button {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        this.setText(this.note.getTitle().toString());
+        String text = "";
+        if(note != null) {
+            text = this.note.getTitle().toString();
+        }
+        this.setText(text);
         super.onDraw(canvas);
     }
 }

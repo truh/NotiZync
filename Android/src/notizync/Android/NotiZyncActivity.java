@@ -48,12 +48,12 @@ public class NotiZyncActivity extends Activity {
 
         openConfigMenuListener = new OpenConfigMenuListener(this);
 
+        setContentView(R.layout.main);
+
         // gather the data to be used by the array
         collectListData();
         // set up the list adapter to be used by the ListView
         setupListAdapter();
-
-        setContentView(R.layout.main);
     }
 
     /**

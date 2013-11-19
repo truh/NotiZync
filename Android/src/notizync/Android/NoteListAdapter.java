@@ -53,8 +53,7 @@ public class NoteListAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         INote note = ((INote)storageProvider.getNoteSet().toArray()[position]);
-        INoteTitle title = note.getTitle();
-        return title.toString();
+        return note;
     }
 
     /**
