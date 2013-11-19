@@ -22,7 +22,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.*;
+import notizync.core.api.INote;
+import notizync.core.api.INoteTitle;
+import notizync.core.loremipsum.LoremStorageProvider;
 
 /**
  * Main Activity of NotiZync for Android
@@ -30,6 +33,9 @@ import android.widget.Button;
 public class NotiZyncActivity extends Activity {
     public static final String TAG = "NotiZyncActivity";
     public static final String PREFERENCES_NAME = "NotiZync.pref";
+
+    // this is the controller that populates the list with data.
+    private NoteListAdapter listAdapter;
 
     private OpenConfigMenuListener openConfigMenuListener;
     /**
@@ -41,6 +47,11 @@ public class NotiZyncActivity extends Activity {
         Log.i(TAG, "Activity created");
 
         openConfigMenuListener = new OpenConfigMenuListener(this);
+
+        // gather the data to be used by the array
+        collectListData();
+        // set up the list adapter to be used by the ListView
+        setupListAdapter();
 
         setContentView(R.layout.main);
     }
@@ -110,5 +121,60 @@ public class NotiZyncActivity extends Activity {
                 NotiZyncActivity.this.setContentView(R.layout.main);
             }
         });
+    }
+
+    /**
+     * This is where we create and connect the adapter to this activity as well
+     * as the data.
+     */
+    private void setupListAdapter() {
+        ListView listView = (ListView) findViewById(R.id.listViewNotes);
+
+        // "this" is the containing activity.
+        // "android.R.layout.simple_list_item_1" is a predefined item that is
+        // already set up to work with a list adapter.
+        // "android.R.id.text1" is a predefined item that is
+        // already set up to work with a list adapter and show one text element.
+        // "spirits" is the data array we are using in this example.
+        /*listAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, spirits); */
+        // listen to an ItemClick event
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                INote note = (INote) listAdapter.getItem(position);
+                INoteTitle title = note.getTitle();
+                Toast.makeText(getApplicationContext(),
+                        "Click ListItem Number " + position + ": " + title.toString(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+        // listen to an ItemLongClick event
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                INote note = (INote) listAdapter.getItem(position);
+                INoteTitle title = note.getTitle();
+                Toast.makeText(getApplicationContext(),
+                        "LongClick ListItem Number " + position + ": " + title.toString(), Toast.LENGTH_LONG)
+                        .show();
+                // to use with or without ItemClick event
+                // don't use the event again?
+                return false;
+            }
+        });
+        // connecting the list adapter to this ListActivity
+        listView.setAdapter(listAdapter);
+    }
+
+    /**
+     * This is where we would get data from a database or other location to plug
+     * into the list adapter. For this example the ListAdapter is an
+     * ArrayAdapter and the array is hard-coded. ListAdapter is an abstract
+     * class and there are many classes that extend it to provide connection
+     * with various data holding formats.
+     */
+    private void collectListData() {
+        this.listAdapter = new NoteListAdapter(new LoremStorageProvider());//TODO more usefull storageprovider
     }
 }

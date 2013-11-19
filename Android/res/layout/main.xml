@@ -15,30 +15,27 @@
     limitations under the License.
 -->
 
-<LinearLayout
-        android:orientation="vertical"
+<FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ScrollView
+    <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView_main"
-            android:layout_weight="2.3">
+            android:layout_height="fill_parent"
+            android:layout_gravity="center">
 
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-        </LinearLayout>
-    </ScrollView>
+        <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/listViewNotes"/>
+    </RelativeLayout>
 
     <Button
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_add"
-            android:id="@+id/button"
-            android:layout_gravity="bottom"/>
-</LinearLayout>
+            android:id="@+id/mainButtonAdd"
+            android:layout_gravity="center_horizontal|bottom"/>
+
+</FrameLayout>

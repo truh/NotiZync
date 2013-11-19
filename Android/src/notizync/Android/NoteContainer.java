@@ -28,7 +28,7 @@ import java.util.HashSet;
  */
 public final class NoteContainer extends View {
     private IStorageProvider storageProvider;
-    private HashSet<NoteButtonView> noteButtons;
+    private HashSet<NoteTitleView> noteButtons;
     private Context context;
 
     /**
@@ -45,7 +45,7 @@ public final class NoteContainer extends View {
 
     private void updateNoteButtons() {
         //remove noteButtons if the wrapped note got removed
-        for(NoteButtonView noteButton: this.noteButtons) {
+        for(NoteTitleView noteButton: this.noteButtons) {
             if(!this.storageProvider.getNoteSet().contains(noteButton.getNote())) {
                 this.noteButtons.remove(noteButton);
             }
@@ -53,14 +53,14 @@ public final class NoteContainer extends View {
         //add note button if one got added
         for(INote note: this.storageProvider.getNoteSet()) {
             boolean buttonExists = false;
-            for(NoteButtonView noteButton: this.noteButtons) {
+            for(NoteTitleView noteButton: this.noteButtons) {
                 if(noteButton.getNote() == note) {
                     buttonExists = true;
                     break;
                 }
             }
             if(!buttonExists) {
-                noteButtons.add(new NoteButtonView(this.context, note));
+                noteButtons.add(new NoteTitleView(this.context, note));
             }
         }
     }
