@@ -7,6 +7,11 @@ package notizync.core.http;
  * @version 0.1
  * @since 14.11.13 09:27
  */
-public class HttpStoreException extends RuntimeException
+public class HTTPStoreException extends RuntimeException
 {
+    public HTTPStoreException(String message)
+    {
+        super(message);
+    }
+
 }
