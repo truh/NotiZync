@@ -130,13 +130,14 @@ public class HTTPStorageProvider
         List<NameValuePair> data = new ArrayList<>();
         data.add(new BasicNameValuePair("title", note.getTitle().toString()));
         data.add(new BasicNameValuePair("content", note.getContent().toString()));
-        data.add(new BasicNameValuePair("stamp", note.getStamp().toString()));
         data.add(new BasicNameValuePair("token", this.token));
 
         String raw = this.sendPost(WebAPI.getAPI("INote", "StoreNote"), data);
         if(raw == null) return false;
 
         HTTPNoteResponse parsed = this.json.fromJson(raw, HTTPNoteResponse.class);
+
+        System.out.println(parsed.success);
 
         return parsed.success;
     }
