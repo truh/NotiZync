@@ -23,7 +23,7 @@ import notizync.core.api.INote;
 /**
  *
  */
-public class NoteButtonView extends Button {
+public class NoteTitleView extends Button {
     private INote note;
     /**
      * Simple constructor to use when creating a view from code.
@@ -31,7 +31,7 @@ public class NoteButtonView extends Button {
      * @param context The Context the view is running in, through which it can
      *                access the current theme, resources, etc.
      */
-    public NoteButtonView(Context context, INote note) {
+    public NoteTitleView(Context context, INote note) {
         super(context);
     }
 
@@ -43,9 +43,20 @@ public class NoteButtonView extends Button {
         return note;
     }
 
+    /**
+     *
+     */
+    public void setNote(INote note) {
+        this.note = note;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        this.setText(this.note.getTitle().toString());
+        String text = "";
+        if(note != null) {
+            text = this.note.getTitle().toString();
+        }
+        this.setText(text);
         super.onDraw(canvas);
     }
 }
