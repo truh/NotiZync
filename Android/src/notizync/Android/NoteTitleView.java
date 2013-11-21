@@ -17,6 +17,7 @@ package notizync.Android;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.widget.Button;
 import notizync.core.api.INote;
 
@@ -24,6 +25,8 @@ import notizync.core.api.INote;
  *
  */
 public class NoteTitleView extends Button {
+    public static final String TAG = "NoteTitleView";
+    private int chop = 100;
     private INote note;
     /**
      * Simple constructor to use when creating a view from code.
@@ -55,6 +58,12 @@ public class NoteTitleView extends Button {
         String text = "";
         if(note != null) {
             text = this.note.getTitle().toString();
+
+            if(text.length() > chop) {
+                text = text.subSequence(0, chop - 4).toString() + " ...";
+            }
+
+            Log.i(TAG, text);
         }
         this.setText(text);
         super.onDraw(canvas);

@@ -15,7 +15,6 @@
  */
 package notizync.core.api;
 
-import itc4j.Stamp;
 import notizync.core.conflict.IConflict;
 
 import java.io.Serializable;

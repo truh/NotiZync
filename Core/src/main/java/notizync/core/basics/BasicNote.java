@@ -15,12 +15,8 @@
  */
 package notizync.core.basics;
 
-import itc4j.Stamp;
-import notizync.core.api.INote;
 import notizync.core.api.INoteContent;
 import notizync.core.api.INoteTitle;
-import notizync.core.basics.conflict.BasicConflict;
-import notizync.core.conflict.IConflict;
 
 /**
  * A basic immutable implementation for the INote interface
