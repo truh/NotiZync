@@ -28,19 +28,16 @@ import notizync.core.conflict.IConflict;
 public final class BasicNote extends AbstractNote {
     private BasicNoteTitle noteTitle;
     private BasicNoteContent noteContent;
-    private Stamp stamp;
 
     /**
      * Assembles a note from its components
      *
      * @param noteTitle title
      * @param noteContent content
-     * @param stamp stamp
      */
-    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent, Stamp stamp) {
+    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent) {
         this.noteTitle = noteTitle;
         this.noteContent = noteContent;
-        this.stamp = stamp;
     }
 
     /**

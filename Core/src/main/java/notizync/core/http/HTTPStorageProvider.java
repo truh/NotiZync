@@ -119,17 +119,19 @@ public class HTTPStorageProvider
         if(parsed.success)
         {
             this.token = parsed.session_data.token;
+            this.noteSet = new HashSet<>();
             return true;
         }
         return false;
     }
 
-    public boolean storeNote(INote note)
+    private boolean storeNote(INote note)
     {
         List<NameValuePair> data = new ArrayList<>();
         data.add(new BasicNameValuePair("title", note.getTitle().toString()));
         data.add(new BasicNameValuePair("content", note.getContent().toString()));
         data.add(new BasicNameValuePair("stamp", note.getStamp().toString()));
+        data.add(new BasicNameValuePair("token", this.token));
 
         String raw = this.sendPost(WebAPI.getAPI("INote", "StoreNote"), data);
         if(raw == null) return false;
@@ -143,6 +145,7 @@ public class HTTPStorageProvider
     {
         List<NameValuePair> data = new ArrayList<>();
         data.add(new BasicNameValuePair("title", note.getTitle().toString()));
+        data.add(new BasicNameValuePair("token", this.token));
 
         String raw = this.sendPost(WebAPI.getAPI("INote", "RemoveNote"), data);
         if(raw == null) return false;

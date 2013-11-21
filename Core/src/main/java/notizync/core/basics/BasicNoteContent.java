@@ -16,6 +16,7 @@
 package notizync.core.basics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -60,6 +61,7 @@ public final class BasicNoteContent extends AbstractNoteContent {
      */
     @Override
     public String[] getLines() {
-        return (String[])this.lines.toArray();
+        Object[] tmp = this.lines.toArray();
+        return Arrays.copyOf(tmp, tmp.length, String[].class);
     }
 }

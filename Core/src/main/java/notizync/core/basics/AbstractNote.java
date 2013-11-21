@@ -37,17 +37,6 @@ public abstract class AbstractNote implements INote {
     public abstract INoteContent getContent();
 
     /**
-     * A Interval Tree Clock stamp, it is used for versioning so that always
-     * the newest version of a note will be showed.
-     *
-     * @return stamp
-     */
-    @Override
-    public Stamp getStamp() {
-        return new Stamp(); //TODO something more usefull is future!
-    }
-
-    /**
      * When causality is not clear, a conflict object should be created and
      * passed to the BasicUpdateEventDistributor
      *
