@@ -113,7 +113,7 @@ public final class FTPStorageProvider implements IStorageProvider {
      */
     @Override
     public boolean removeNote(INote note) {
-        return false;  //TODO implement it
+        return this.noteSet.remove(note);
     }
 
     /**
@@ -130,6 +130,6 @@ public final class FTPStorageProvider implements IStorageProvider {
      */
     @Override
     public void sync() {
-
+        //TODO
     }
 }
