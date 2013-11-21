@@ -136,8 +136,7 @@ public class HTTPStorageProvider
 
         HTTPNoteResponse parsed = this.json.fromJson(raw, HTTPNoteResponse.class);
 
-        if(parsed.success) return true;
-        return false;
+        return parsed.success;
     }
 
     public boolean removeNote(INote note)
@@ -150,8 +149,7 @@ public class HTTPStorageProvider
 
         HTTPNoteResponse parsed = this.json.fromJson(raw, HTTPNoteResponse.class);
 
-        if(parsed.success) return true;
-        return false;
+        return parsed.success;
     }
 
     private String sendPost(String url, List<NameValuePair> data)
@@ -164,8 +162,7 @@ public class HTTPStorageProvider
             HttpResponse response = this.backend.execute(request);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            String line = "";
-            String raw = "";
+            String line = "", raw = "";
 
             while((line = reader.readLine()) != null)
             {
