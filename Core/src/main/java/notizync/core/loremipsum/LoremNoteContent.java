@@ -41,7 +41,7 @@ public class LoremNoteContent extends AbstractNoteContent {
      */
     public LoremNoteContent(int wordsPLine, int lineCount) {
         //   wordsPLine, lineCount, skipWords
-        this(wordsPLine, lineCount, (int)(Math.random() * 10000));
+        this(wordsPLine, lineCount, (int)(Math.random() * 10000)%50);
     }
 
     /**

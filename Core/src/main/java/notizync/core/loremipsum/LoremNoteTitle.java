@@ -39,7 +39,7 @@ public class LoremNoteTitle implements INoteTitle {
      */
     public LoremNoteTitle(int wordCount) {
         //   wordCount, skipWords
-        this(wordCount, (int)(Math.random() * 10000));
+        this(wordCount, (int)(Math.random() * 10000)%50);
     }
 
     /**

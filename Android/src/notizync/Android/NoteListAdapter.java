@@ -16,11 +16,12 @@
 package notizync.Android;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 import notizync.core.api.INote;
-import notizync.core.api.INoteTitle;
 import notizync.core.api.IStorageProvider;
 
 /**
@@ -87,16 +88,13 @@ public class NoteListAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        NoteTitleView view;
+        Context context = parent.getContext();
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.main, parent, false);
         INote note = (INote)getItem(position);
-        if(null != convertView && convertView instanceof NoteTitleView) {
-            view = (NoteTitleView)convertView;
-            view.setNote(note);
-        }
-        else {
-            Context context = parent.getContext();
-            view = new NoteTitleView(context, note);
-        }
-        return view;
+        TextView textView = (TextView)view.findViewById(android.R.id.text1);
+        textView.setText(note.getTitle().toString());
+        return textView;
     }
 }
