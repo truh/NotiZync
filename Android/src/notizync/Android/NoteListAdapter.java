@@ -93,7 +93,9 @@ public class NoteListAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.main, parent, false);
         INote note = (INote)getItem(position);
-        TextView textView = (TextView)view.findViewById(android.R.id.text1);
+        TextView textView;
+        textView = new TextView(context);
+        textView.setLines(1);
         textView.setText(note.getTitle().toString());
         return textView;
     }
