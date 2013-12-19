@@ -26,6 +26,6 @@ public class NoteList
             this.add(b, "wrap");
         }
 
-        this.setPreferredSize(new Dimension(210, (int)Math.ceil(100*35)));
+        this.setPreferredSize(new Dimension(205, (int)Math.ceil(100*35)));
     }
 }

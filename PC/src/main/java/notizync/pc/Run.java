@@ -1,6 +1,6 @@
 package notizync.pc;
 
-import notizync.pc.gui.View.MainWindow;
+import notizync.pc.gui.MainWindow;
 
 /**
  *
