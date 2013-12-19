@@ -25,7 +25,7 @@ import org.apache.http.message.BasicNameValuePair;
  * An implementation of IStorageProvider based on the HTTP Protocol and an Web-API.
  *
  * @author Andreas Willinger
- * @version 0.1
+ * @version 0.6
  * @since 14.11.13 08:45
  */
 public class HTTPStorageProvider
@@ -53,6 +53,53 @@ public class HTTPStorageProvider
         this.json = new Gson();
 
         if(!this.doLogin(username, password)) throw new HTTPStoreException("Logon failed");
+    }
+
+    /**
+     * Send a login request to the backend, containing username and password.
+     *
+     * @param username Plain-Text Username
+     * @param password Plain-Text Password
+     * @return true if the login was successful, false if not
+     */
+    private boolean doLogin(String username, String password)
+    {
+        List<NameValuePair> data = new ArrayList<>();
+        data.add(new BasicNameValuePair("username", username));
+        data.add(new BasicNameValuePair("password", password));
+
+        String raw = this.sendPost(WebAPI.getAPI("IUser", "OAuth"), data);
+        if(raw == null) return false;
+
+        HTTPLoginResponse parsed = this.json.fromJson(raw, HTTPLoginResponse.class);
+
+        if(parsed.success)
+        {
+            this.token = parsed.session_data.token;
+            this.noteSet = new HashSet<>();
+            return true;
+        }
+        return false;
+    }
+
+    public void getNotes()
+    {
+        List<NameValuePair> data = new ArrayList<>();
+        data.add(new BasicNameValuePair("token", this.token));
+
+        String raw = this.sendPost(WebAPI.getAPI("INote", "GetNotes"), data);
+        if(raw == null) throw new HTTPStoreException("something went wrong");
+
+        HTTPGetNotesResponse parsed = this.json.fromJson(raw, HTTPGetNotesResponse.class);
+
+        System.out.println(parsed.count);
+        System.out.println(parsed.success);
+
+        HTTPGetNotesResponse.Note[] notes = parsed.data;
+        for(int i = 0; i < notes.length; i++)
+        {
+            System.out.println(notes[i].title+"|"+notes[i].content);
+        }
     }
 
     /**
@@ -98,33 +145,6 @@ public class HTTPStorageProvider
         return exists ? existing : null;
     }
 
-    /**
-     * Send a login request to the backend, containing username and password.
-     *
-     * @param username Plain-Text Username
-     * @param password Plain-Text Password
-     * @return true if the login was successful, false if not
-     */
-    private boolean doLogin(String username, String password)
-    {
-        List<NameValuePair> data = new ArrayList<>();
-        data.add(new BasicNameValuePair("username", username));
-        data.add(new BasicNameValuePair("password", password));
-
-        String raw = this.sendPost(WebAPI.getAPI("IUser", "OAuth"), data);
-        if(raw == null) return false;
-
-        HTTPLoginResponse parsed = this.json.fromJson(raw, HTTPLoginResponse.class);
-
-        if(parsed.success)
-        {
-            this.token = parsed.session_data.token;
-            this.noteSet = new HashSet<>();
-            return true;
-        }
-        return false;
-    }
-
     private boolean storeNote(INote note)
     {
         List<NameValuePair> data = new ArrayList<>();
@@ -135,9 +155,7 @@ public class HTTPStorageProvider
         String raw = this.sendPost(WebAPI.getAPI("INote", "StoreNote"), data);
         if(raw == null) return false;
 
-        HTTPNoteResponse parsed = this.json.fromJson(raw, HTTPNoteResponse.class);
-
-        System.out.println(parsed.success);
+        HTTPStoreNoteResponse parsed = this.json.fromJson(raw, HTTPStoreNoteResponse.class);
 
         return parsed.success;
     }
@@ -151,7 +169,7 @@ public class HTTPStorageProvider
         String raw = this.sendPost(WebAPI.getAPI("INote", "RemoveNote"), data);
         if(raw == null) return false;
 
-        HTTPNoteResponse parsed = this.json.fromJson(raw, HTTPNoteResponse.class);
+        HTTPStoreNoteResponse parsed = this.json.fromJson(raw, HTTPStoreNoteResponse.class);
 
         return parsed.success;
     }

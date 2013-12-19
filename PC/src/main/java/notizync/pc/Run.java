@@ -1,6 +1,6 @@
 package notizync.pc;
 
-import notizync.pc.gui.MainWindow;
+import notizync.pc.gui.View.MainWindow;
 
 /**
  *
@@ -9,6 +9,6 @@ public final class Run
 {
     public static void main(String [] args)
     {
-        MainWindow window = new MainWindow();
+        new MainWindow();
     }
 }

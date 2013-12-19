@@ -1,4 +1,6 @@
-package notizync.pc.gui;
+package notizync.pc.gui.View;
+
+import javax.swing.*;
 
 /**
  * -- DESCRIPTION --
@@ -7,6 +9,8 @@ package notizync.pc.gui;
  * @version 0.1
  * @since 07.11.13 10:45
  */
-public class NoteEdit
+public class NoteAdd
+    extends JFrame
 {
+
 }

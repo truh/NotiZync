@@ -7,7 +7,7 @@ package notizync.core.http;
  * @version 0.1
  * @since 14.11.13 11:33
  */
-public class HTTPNoteResponse
+public class HTTPStoreNoteResponse
 {
     public boolean success;
     public boolean duplicate;

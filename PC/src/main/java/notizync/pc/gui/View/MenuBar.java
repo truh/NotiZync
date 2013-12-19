@@ -1,10 +1,8 @@
-package notizync.pc.gui;
+package notizync.pc.gui.View;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 /**
- * -- DESCRIPTION --
  *
  * @author Andreas Willinger
  * @version 0.1

@@ -1,4 +1,4 @@
-package notizync.pc.gui;
+package notizync.pc.gui.View;
 
 /**
  * -- DESCRIPTION --
@@ -9,4 +9,8 @@ package notizync.pc.gui;
  */
 public class NoteDeleteConfirmation
 {
+    public NoteDeleteConfirmation()
+    {
+
+    }
 }

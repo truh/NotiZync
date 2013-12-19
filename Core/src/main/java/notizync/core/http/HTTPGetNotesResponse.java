@@ -12,8 +12,11 @@ public class HTTPGetNotesResponse
     public boolean success;
     public int count;
 
+    public Note[] data;
+
     public class Note
     {
-
+        public String title;
+        public String content;
     }
 }
