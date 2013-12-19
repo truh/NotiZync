@@ -20,38 +20,41 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="332dp"
-            android:id="@+id/textView"
-            android:gravity="bottom"
-            android:text="Note"
-            android:enabled="true"/>
+            android:layout_height="0dp"
+            android:id="@+id/scrollView_Note"
+            android:layout_weight="2.3">
+
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="332dp"
+                android:id="@+id/textView_NoteBody"
+                android:gravity="bottom"
+                android:text="Note"
+                android:enabled="true"/>
+
+    </ScrollView>
 
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center_horizontal">
 
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save"
-                android:id="@+id/button"
-                android:layout_gravity="center"/>
-
-        <Space
-                android:layout_width="20px"
-                android:layout_height="20px"
-                android:id="@+id/space"
+                android:id="@+id/button_save_note"
                 android:layout_gravity="center"/>
 
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delete"
-                android:id="@+id/button2"
+                android:id="@+id/button_delete_note"
                 android:layout_gravity="center"/>
+
     </LinearLayout>
 </LinearLayout>
