@@ -3,7 +3,7 @@ package notizync.pc.gui.View;
 import javax.swing.*;
 
 /**
- * -- DESCRIPTION --
+ * Add a new Note to the datastore.
  *
  * @author Andreas Willinger
  * @version 0.1
@@ -12,5 +12,9 @@ import javax.swing.*;
 public class NoteAdd
     extends JFrame
 {
-
+    public NoteAdd()
+    {
+        super("Neue Notiz anlegen");
+        this.setVisible(true);
+    }
 }
