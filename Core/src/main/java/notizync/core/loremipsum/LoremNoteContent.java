@@ -70,6 +70,10 @@ public class LoremNoteContent extends AbstractNoteContent {
      */
     @Override
     public String[] getLines() {
-        return (String[])this.lines.toArray();
+        String[] stringArray = new String[this.lines.size()];
+        for(int i = 0; i<stringArray.length && i<this.lines.size(); i++) {
+            stringArray[i] = this.lines.get(i);
+        }
+        return stringArray;
     }
 }

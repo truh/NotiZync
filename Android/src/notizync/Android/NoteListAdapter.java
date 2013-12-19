@@ -29,9 +29,12 @@ import notizync.core.api.IStorageProvider;
  */
 public class NoteListAdapter extends BaseAdapter {
     private IStorageProvider storageProvider;
+    private View.OnClickListener openNoteListener;
 
-    public NoteListAdapter(IStorageProvider storageProvider) {
+    public NoteListAdapter(IStorageProvider storageProvider,
+                           View.OnClickListener openNoteListener) {
         this.storageProvider = storageProvider;
+        this.openNoteListener = openNoteListener;
     }
 
     /**
@@ -95,8 +98,9 @@ public class NoteListAdapter extends BaseAdapter {
         INote note = (INote)getItem(position);
         TextView textView;
         textView = new TextView(context);
-        textView.setLines(1);
+        //textView.setLines(1);
         textView.setText(note.getTitle().toString());
+        textView.setOnClickListener(openNoteListener);
         return textView;
     }
 }

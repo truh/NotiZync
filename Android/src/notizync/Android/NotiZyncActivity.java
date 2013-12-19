@@ -16,7 +16,6 @@
 package notizync.Android;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +24,7 @@ import android.view.View;
 import android.widget.*;
 import notizync.core.api.INote;
 import notizync.core.api.INoteTitle;
+import notizync.core.api.IStorageProvider;
 import notizync.core.loremipsum.LoremStorageProvider;
 
 /**
@@ -33,6 +33,9 @@ import notizync.core.loremipsum.LoremStorageProvider;
 public class NotiZyncActivity extends Activity {
     public static final String TAG = "NotiZyncActivity";
     public static final String PREFERENCES_NAME = "NotiZync.pref";
+
+    public static View noteContainer;
+    public static TextView noteContent;
 
     // this is the controller that populates the list with data.
     private NoteListAdapter listAdapter;
@@ -49,6 +52,10 @@ public class NotiZyncActivity extends Activity {
         openConfigMenuListener = new OpenConfigMenuListener(this);
 
         setContentView(R.layout.main);
+
+        //
+        noteContainer = this.findViewById(R.layout.note);
+        noteContent = (TextView) this.findViewById(R.id.textView_NoteBody);
 
         // gather the data to be used by the array
         collectListData();
@@ -182,6 +189,11 @@ public class NotiZyncActivity extends Activity {
      * with various data holding formats.
      */
     private void collectListData() {
-        this.listAdapter = new NoteListAdapter(new LoremStorageProvider());//TODO more usefull storageprovider
+        IStorageProvider storageProvider = new LoremStorageProvider(); //TODO more usefull storageprovider
+        View.OnClickListener openNoteListener = new OpenNoteListener(storageProvider, this);
+        this.listAdapter = new NoteListAdapter(
+                storageProvider,
+                openNoteListener
+        );
     }
 }
