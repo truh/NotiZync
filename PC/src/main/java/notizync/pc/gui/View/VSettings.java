@@ -1,12 +1,19 @@
 package notizync.pc.gui.View;
 
+import notizync.pc.core.Model;
+
 /**
- * -- DESCRIPTION --
+ * Manage all Settings of the Program.
  *
  * @author Andreas Willinger
  * @version 0.1
- * @since 09.01.14 11:13
  */
 public class VSettings
 {
+    private Model m;
+
+    public VSettings(Model m)
+    {
+        this.m = m;
+    }
 }

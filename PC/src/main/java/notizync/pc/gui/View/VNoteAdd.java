@@ -9,11 +9,10 @@ import java.awt.*;
 import java.net.URL;
 
 /**
- * Add a new Note to the Datastore.
+ * Create a new Note added to the local/remote Datastore.
  *
  * @author Andreas Willinger
- * @version 0.1
- * @since 07.11.13 10:45
+ * @version 1.0
  */
 public class VNoteAdd
     extends JFrame
@@ -32,16 +31,18 @@ public class VNoteAdd
         this.m = m;
 
         BorderLayout layout = new BorderLayout();
+        // required so that the textfields do not stick together
         layout.setVgap(4);
         this.setLayout(layout);
 
+        // our controller/event listener
         CNoteAdd c = new CNoteAdd(this.m, l, this);
 
         this.setSize(new Dimension(480, 300));
         this.setResizable(false);
 
-        this.txtTitle = new JTextField("Titel");
-        this.txtContent = new JTextArea("Inhalt");
+        this.txtTitle = new JTextField("");
+        this.txtContent = new JTextArea("");
 
         this.txtTitle.setBorder(new EmptyBorder(4,4,4,4));
         this.txtContent.setBorder(new EmptyBorder(4,4,4,4));
@@ -58,6 +59,7 @@ public class VNoteAdd
         this.bCancel.setIcon(new ImageIcon(imageURL2, "Speichern"));
         this.bCancel.addActionListener(c);
 
+        // save & cancel
         Container c1 = new Container();
         c1.setLayout(new GridLayout(1,2));
         c1.add(this.bSave);
@@ -70,6 +72,7 @@ public class VNoteAdd
         this.setVisible(true);
     }
 
+    // Getter Methods
     public JTextField getHeader()
     {
         return this.txtTitle;

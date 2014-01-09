@@ -1,27 +1,25 @@
 package notizync.pc.gui.View;
 
-import net.miginfocom.swing.MigLayout;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.URL;
 
-import notizync.core.loremipsum.*;
 import notizync.pc.core.Model;
 import notizync.pc.gui.Controller.CNoteDisplay;
 
 /**
- * Displays a Note in Detail (including Text)
+ * Create a JLabel and JTextArea to display the title and content of the Note.
+ * Additionally add a JButton Bar to edit the note content.
+ *
+ * Please note that due to the specification, the title of the Note can not be changed!
  *
  * @author Andreas Willinger
- * @version 0.2
- * @since 07.11.13 10:44
+ * @version 1.0
  */
 public class VNoteDisplay
     extends JPanel
 {
-    private Model m;
     private CNoteDisplay c;
 
     private JLabel lblHeader;
@@ -30,22 +28,33 @@ public class VNoteDisplay
     private JButton bSave;
     private JButton bCancel;
 
-    public VNoteDisplay(Model m, CNoteDisplay c)
+    public VNoteDisplay(CNoteDisplay c)
     {
-        this.m = m;
         this.c = c;
 
-        this.setLayout(new MigLayout("insets 4"));
+        // structure:
+        // [title]
+        //    |
+        // [content]
+        //    |
+        // [editing area]
+        this.setLayout(new BorderLayout());
+        this.setBorder(new EmptyBorder(4,4,8,4));
 
-        this.lblHeader = new JLabel("Super fancy notice title");
+        // note title
+        this.lblHeader = new JLabel("Keine Notiz ausgewählt");
         this.lblHeader.setFont(new Font("Arial", Font.BOLD, 18));
+        this.lblHeader.setBorder(new EmptyBorder(4,4,4,4));
 
+        // note content
         this.txtContent = new JTextArea();
-        this.txtContent.setPreferredSize(new Dimension(580, 480));
-        this.txtContent.setBorder(new EmptyBorder(4, 4, 4, 4));
+        this.txtContent.setBorder(new EmptyBorder(4,4,4,4));
         this.txtContent.setLineWrap(true);
-        this.txtContent.setText((new LoremIpsum()).getWords(1000));
-        this.txtContent.addKeyListener(this.c);
+        this.txtContent.setText("Bitte wählen Sie entweder eine bestehende Notiz links aus, oder erzeugen Sie eine neue.");
+
+        // by default, the editing buttons are disabled
+        // once the text changes, they get enabled automatically
+        this.txtContent.getDocument().addDocumentListener(this.c);
 
         String imgLocation = "images/";
         this.bSave = new JButton("Speichern");
@@ -61,16 +70,19 @@ public class VNoteDisplay
         this.bCancel.addActionListener(this.c);
         this.bCancel.setEnabled(false);
 
-        this.add(this.lblHeader, "wrap");
-        this.add(new JScrollPane(this.txtContent), "wrap");
+        // add the general stuff
+        this.add(this.lblHeader, BorderLayout.NORTH);
+        this.add(new JScrollPane(this.txtContent), BorderLayout.CENTER);
 
         Container c1 = new Container();
-        c1.setLayout(new FlowLayout());
+        c1.setLayout(new GridLayout(1,2));
         c1.add(this.bSave);
         c1.add(this.bCancel);
-        this.add(c1);
+
+        this.add(c1, BorderLayout.SOUTH);
     }
 
+    // Getter Methods
     public JLabel getHeader()
     {
         return this.lblHeader;
