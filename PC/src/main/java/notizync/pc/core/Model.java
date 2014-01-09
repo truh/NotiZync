@@ -1,9 +1,6 @@
 package notizync.pc.core;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This Class handles all data exchanged between the GUI and the Backend.
@@ -64,6 +61,8 @@ public class Model
             notes[i] = (String)it.next();
             i++;
         }
+
+        Arrays.sort(notes);
         return notes;
     }
 

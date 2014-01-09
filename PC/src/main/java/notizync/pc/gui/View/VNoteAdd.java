@@ -47,7 +47,7 @@ public class VNoteAdd
         this.txtContent.setBorder(new EmptyBorder(4,4,4,4));
 
         String imgLocation = "images/";
-        this.bSave = new JButton("Speichern & Schließen");
+        this.bSave = new JButton("Speichern & schließen");
         this.bCancel = new JButton("Abbrechen");
 
         URL imageURL = VNoteDisplay.class.getResource(imgLocation+"disk.png");

@@ -1,10 +1,13 @@
 package notizync.pc.gui.Controller;
 
 import notizync.pc.core.Model;
+import notizync.pc.gui.View.VNoteAdd;
 import notizync.pc.gui.View.VNoteDisplay;
 import notizync.pc.gui.View.VNoteList;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,7 +21,7 @@ import java.awt.event.KeyListener;
  * @since 09.01.14 09:41
  */
 public class CNoteDisplay
-        implements ActionListener, KeyListener
+        implements ActionListener, KeyListener, ListSelectionListener
 {
     private Model m;
 
@@ -59,15 +62,10 @@ public class CNoteDisplay
             this.noteChanged = false;
             this.toggleButtons();
         }
-        else
+        else if(button == this.v1.getNewButton())
         {
-            this.v2.getHeader().setText(button.getText());
-            this.v2.getContent().setText(this.m.getNote(button.getText()));
-
-            this.noteChanged = false;
-            this.toggleButtons();
+            new VNoteAdd(this.m, this.v1);
         }
-
     }
 
     @Override
@@ -95,5 +93,16 @@ public class CNoteDisplay
             this.v2.getSave().setEnabled(false);
             this.v2.getCancel().setEnabled(false);
         }
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e)
+    {
+        JList list = (JList)e.getSource();
+        this.v2.getHeader().setText((String)list.getSelectedValue());
+        this.v2.getContent().setText(this.m.getNote((String) list.getSelectedValue()));
+
+        this.noteChanged = false;
+        this.toggleButtons();
     }
 }

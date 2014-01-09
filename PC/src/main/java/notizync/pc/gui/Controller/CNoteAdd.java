@@ -38,7 +38,7 @@ public class CNoteAdd implements ActionListener
         {
             if(this.m.putNote(this.v.getHeader().getText(), this.v.getContent().getText()))
             {
-                this.l.addButton(this.v.getHeader().getText());
+                this.l.update();
 
                 this.v.setVisible(false);
                 this.v.dispose();
