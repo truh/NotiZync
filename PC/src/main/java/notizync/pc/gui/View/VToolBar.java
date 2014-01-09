@@ -1,6 +1,7 @@
 package notizync.pc.gui.View;
 
-import notizync.pc.core.ToolBarController;
+import notizync.pc.core.Model;
+import notizync.pc.gui.Controller.CToolBar;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,19 +15,22 @@ import java.net.URL;
  * @version 0.1
  * @since 19.12.13 10:52
  */
-public class ToolBar
+public class VToolBar
 {
-    private ToolBarController c;
+    private CToolBar c;
+    private VNoteList l;
 
+    private Model m;
     private JButton bNew;
     private JButton bEdit;
     private JButton bDelete;
     private JButton bRefresh;
     private JButton bSettings;
 
-    public ToolBar(ToolBarController c)
+    public VToolBar(Model m, VNoteList l)
     {
-        this.c =  c;
+        this.m =  m;
+        this.c = new CToolBar(this.m, l, this);
     }
 
     public JToolBar createBar()
@@ -35,13 +39,11 @@ public class ToolBar
         bar.setBorder(new EmptyBorder(4,4,4,4));
 
         this.bNew = this.createButton("add.png", "NEW", "", "Neue Notiz anlegen");
-        this.bEdit = this.createButton("edit.png", "EDIT", "", "Notiz bearbeiten");
         this.bDelete = this.createButton("delete.png", "DELETE", "", "Notiz(en) löschen");
         this.bRefresh = this.createButton("refresh.png", "REFRESH", "", "Synchronisation starten");
         this.bSettings = this.createButton("cog.png", "SETTINGS", "", "Einstellungen");
 
         bar.add(this.bNew);
-        bar.add(this.bEdit);
         bar.add(this.bDelete);
         bar.add(this.bRefresh);
         bar.addSeparator(new Dimension(100, 25));
@@ -55,13 +57,13 @@ public class ToolBar
         //Look for the image.
         String imgLocation = "images/"
                 + image;
-        URL imageURL = ToolBar.class.getResource(imgLocation);
+        URL imageURL = VToolBar.class.getResource(imgLocation);
 
         //Create and initialize the button.
         JButton button = new JButton();
         button.setActionCommand(action);
         button.setToolTipText(tooltip);
-        button.addActionListener(c);
+        button.addActionListener(this.c);
 
         button.setIcon(new ImageIcon(imageURL, text));
         button.setText(text);
@@ -75,8 +77,6 @@ public class ToolBar
         {
             case "new":
                 return this.bNew;
-            case "edit":
-                return this.bEdit;
             case "delete":
                 return this.bDelete;
             case "refresh":

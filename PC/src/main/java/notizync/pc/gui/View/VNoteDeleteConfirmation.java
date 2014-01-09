@@ -5,8 +5,12 @@ package notizync.pc.gui.View;
  *
  * @author Andreas Willinger
  * @version 0.1
- * @since 07.11.13 10:45
+ * @since 07.11.13 10:46
  */
-public class NoteEdit
+public class VNoteDeleteConfirmation
 {
+    public VNoteDeleteConfirmation()
+    {
+
+    }
 }

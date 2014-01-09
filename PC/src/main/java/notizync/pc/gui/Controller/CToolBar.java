@@ -1,26 +1,31 @@
-package notizync.pc.core;
+package notizync.pc.gui.Controller;
 
-import notizync.pc.gui.View.NoteAdd;
-import notizync.pc.gui.View.ToolBar;
+import notizync.pc.core.Model;
+import notizync.pc.gui.View.VNoteAdd;
+import notizync.pc.gui.View.VNoteList;
+import notizync.pc.gui.View.VToolBar;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Handles all Actions which happen on the ToolBar.
+ * Handles all Actions which happen on the VToolBar.
  *
  * @author Andreas Willinger
  * @version 0.1
  * @since 19.12.13 10:56
  */
-public class ToolBarController
+public class CToolBar
     implements ActionListener
 {
-    private ToolBar tb;
+    private Model m;
+    private VNoteList l;
+    private VToolBar tb;
 
-    public void setToolBar(ToolBar tb)
+    public CToolBar(Model m, VNoteList l, VToolBar tb)
     {
+        this.m = m;
+        this.l = l;
         this.tb = tb;
     }
 
@@ -29,11 +34,7 @@ public class ToolBarController
     {
         if(this.tb.getButton("new") == e.getSource())
         {
-            NoteAdd add = new NoteAdd();
-        }
-        else if(this.tb.getButton("edit") == e.getSource())
-        {
-            System.out.println("edit was pressed");
+            VNoteAdd add = new VNoteAdd(this.m, this.l);
         }
         else if(this.tb.getButton("delete") == e.getSource())
         {
