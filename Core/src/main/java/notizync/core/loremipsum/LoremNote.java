@@ -24,6 +24,7 @@ public class LoremNote implements INote
 {
     private String title;
     private String content;
+    private long timestamp;
 
     /**
      * Default constructor
@@ -43,6 +44,11 @@ public class LoremNote implements INote
 
     }
 
+    public void setTimestamp(long timestamp)
+    {
+
+    }
+
     /**
      * @return title of this note
      */
@@ -58,4 +64,6 @@ public class LoremNote implements INote
     public String getContent() {
         return this.content;
     }
+
+    public long getTimestamp() { return this.timestamp; }
 }

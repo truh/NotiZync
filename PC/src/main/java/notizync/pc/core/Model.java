@@ -14,6 +14,7 @@ import java.util.*;
 public class Model
 {
     private LinkedList<INote> myNotes = new LinkedList<INote>();
+    private LocalStorage ls;
 
     public Model()
     {
@@ -28,9 +29,11 @@ public class Model
             {
                 text += (char)r.nextInt('z'-'A')+'A';
             }
-            INote note = new BasicNote("Notiz #"+i, text);
+            INote note = new BasicNote("Notiz #"+i, text, new java.util.Date().getTime());
             this.myNotes.add(note);
         }
+
+        ls = new LocalStorage();
     }
 
     /**
@@ -80,7 +83,7 @@ public class Model
         }
 
         if(exists) return false;
-        INote note = new BasicNote(title, content);
+        INote note = new BasicNote(title, content, new java.util.Date().getTime());
 
         this.myNotes.add(note);
 
@@ -119,19 +122,30 @@ public class Model
      */
     public String[] getNoteList()
     {
-        String[] notes = new String[this.myNotes.size()];
+        /*String[] notes = new String[this.myNotes.size()];
         int i = 0;
 
         for(INote n:this.myNotes)
         {
             notes[i] = n.getTitle();
             i++;
+        }  */
+
+
+        INote[] notes = this.ls.getNotes();
+        String[] titles= new String[notes.length];
+        int i = 0;
+
+        for(INote n:notes)
+        {
+            titles[i] = n.getTitle();
+            i++;
         }
 
         // sort it
-        Arrays.sort(notes);
+        Arrays.sort(titles);
 
-        return notes;
+        return titles;
     }
 
     /**

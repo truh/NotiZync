@@ -31,6 +31,13 @@ public interface INote
      * @param content the content to set
      */
     public void setContent(String content);
+
+    /**
+     * set timestamp of this note
+     * @param timestamp the timestamp to set
+     */
+    public void setTimestamp(long timestamp);
+
     /**
      * @return title of this note
      */
@@ -40,4 +47,9 @@ public interface INote
      * @return content (text) of this note
      */
     public String getContent();
+
+    /**
+     * @return timestamp (long) of this note
+     */
+    public long getTimestamp();
 }

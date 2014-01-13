@@ -1,6 +1,7 @@
 package notizync.pc.gui.View;
 
 import notizync.pc.core.Model;
+import notizync.pc.gui.Controller.CSettings;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +17,7 @@ public class VSettings
     extends JFrame
 {
     private Model m;
+    private CSettings c;
 
     // fields
     private JTextField tInterval;
@@ -28,6 +30,7 @@ public class VSettings
     {
         super("NotiZync Einstellungen");
         this.m = m;
+        this.c = new CSettings(this.m, this);
 
         this.setSize(600, 320);
         this.setLayout(new BorderLayout());
@@ -82,7 +85,7 @@ public class VSettings
         bCreate.setCursor(new Cursor(Cursor.HAND_CURSOR));
         bCreate.setPreferredSize(new Dimension(((int) this.getSize().getWidth())-8, 25));
         bCreate.setBorder(new EmptyBorder(4,4,4,4));
-        //bCreate.addActionListener(new OpenUrlAction());
+        bCreate.addActionListener(this.c);
 
         p2.add(lblInterval);
         p2.add(tInterval);
@@ -105,5 +108,11 @@ public class VSettings
         this.add(p1, BorderLayout.CENTER);
         this.add(p3, BorderLayout.SOUTH);
         this.setVisible(true);
+    }
+
+    // getter methods
+    public JButton getCreateButton()
+    {
+        return this.bCreate;
     }
 }

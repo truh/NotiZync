@@ -20,10 +20,12 @@ import notizync.core.api.INote;
 /**
  * A basic immutable implementation for the INote interface
  */
-public final class BasicNote implements INote
+public final class BasicNote
+        implements INote
 {
-    private String noteTitle;
-    private String noteContent;
+    private String title;
+    private String content;
+    private long timestamp;
 
     /**
      * Assembles a note from its components
@@ -31,10 +33,11 @@ public final class BasicNote implements INote
      * @param noteTitle title
      * @param noteContent content
      */
-    public BasicNote(String noteTitle, String noteContent)
+    public BasicNote(String noteTitle, String noteContent, long timestamp)
     {
-        this.noteTitle = noteTitle;
-        this.noteContent = noteContent;
+        this.title = noteTitle;
+        this.content = noteContent;
+        this.timestamp = timestamp;
     }
 
     /**
@@ -43,7 +46,7 @@ public final class BasicNote implements INote
      */
     public void setTitle(String title)
     {
-        this.noteTitle = title;
+        this.title = title;
     }
 
     /**
@@ -52,7 +55,16 @@ public final class BasicNote implements INote
      */
     public void setContent(String content)
     {
-        this.noteContent = content;
+        this.content = content;
+    }
+
+    /**
+     * set timestamp of this note
+     * @param timestamp the timestamp to set
+     */
+    public void setTimestamp(long timestamp)
+    {
+        this.timestamp = timestamp;
     }
 
     /**
@@ -60,7 +72,7 @@ public final class BasicNote implements INote
      */
     @Override
     public String getTitle() {
-        return this.noteTitle;
+        return this.title;
     }
 
     /**
@@ -68,6 +80,14 @@ public final class BasicNote implements INote
      */
     @Override
     public String getContent() {
-        return this.noteContent;
+        return this.content;
+    }
+
+    /**
+     * @return timestamp (long) of this note
+     */
+    public long getTimestamp()
+    {
+        return this.timestamp;
     }
 }

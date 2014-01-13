@@ -14,7 +14,7 @@ public class HTTPStorageTest
 {
     public static void main(String[] args)
     {
-        BasicNote note = new BasicNote("Test", "Inhalt");
+        BasicNote note = new BasicNote("Test", "Inhalt", 13838842);
 
         HTTPStorageProvider provider = new HTTPStorageProvider(null, new BasicNegotiator(), "abc", "123");
         provider.putNote(note);
