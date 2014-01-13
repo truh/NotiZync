@@ -1,39 +1,61 @@
 package notizync.pc.core;
 
-import notizync.core.api.INote;
-import notizync.core.basics.BasicNote;
-
-import java.util.*;
-
 /**
  * Interface between our GUI and the backend (both local storage and remote).
  *
  * @author Andreas Willinger
- * @version 1.0
+ * @version 1.1
  */
 public class Model
 {
-    private LinkedList<INote> myNotes = new LinkedList<INote>();
     private LocalStorage ls;
+
+    public enum EResult
+    {
+        _,
+        k_Unknown,
+        k_Success,
+        k_RemoteDown,
+        k_RemoteNotLoggedIn,
+        k_RemoteSessionExpired,
+        k_RemoteInvalidUserPassword,
+        k_RemoteNoteExists,
+        k_RemoteInvalidNote,
+        k_RemoteDatabaseFailure,
+        k_RemoteSuccess,
+        k_LocalPermissionsError,
+        k_LocalConcurrentException,
+        k_LocalGeneralError,
+        k_LocalSuccess
+    }
 
     public Model()
     {
-        // replace the following
-        String text;
-        Random r = new Random();
-
-        for(int i = 1; i <= 100; i++)
-        {
-            text = "";
-            for(int j = 1; j <= 200; j++)
-            {
-                text += (char)r.nextInt('z'-'A')+'A';
-            }
-            INote note = new BasicNote("Notiz #"+i, text, new java.util.Date().getTime());
-            this.myNotes.add(note);
-        }
-
         ls = new LocalStorage();
+    }
+
+    /**
+     * Update the locally stored Setting value.
+     *
+     * @param name name of the setting
+     * @param value new value
+     * @param write true: directly write on harddisk, false: only chagne in memory
+     * @return true on success, false on failure (Invalid setting, JSON failure)
+     */
+    public boolean updateSetting(String name, Object value, boolean write)
+    {
+        return this.ls.updateSetting(name, value, write);
+    }
+
+    /**
+     * Return the current value of a Setting.
+     *
+     * @param name name of the setting
+     * @return An Object or false, if the setting was not found
+     */
+    public Object getSetting(String name)
+    {
+        return this.ls.getSetting(name);
     }
 
     /**
@@ -45,22 +67,7 @@ public class Model
      */
     public boolean setContent(String title, String content)
     {
-        INote note = null;
-
-        for(INote n:this.myNotes)
-        {
-            if(n.getTitle().equals(title))
-            {
-                note = n;
-                break;
-            }
-        }
-
-        if(note == null) return false;
-
-        note.setContent(content);
-
-        return true;
+        return this.ls.setContent(title, content);
     }
 
     /**
@@ -72,22 +79,7 @@ public class Model
      */
     public boolean putNote(String title, String content)
     {
-        boolean exists = false;
-        for(INote n:this.myNotes)
-        {
-            if(n.getTitle().equals(title))
-            {
-                exists = true;
-                break;
-            }
-        }
-
-        if(exists) return false;
-        INote note = new BasicNote(title, content, new java.util.Date().getTime());
-
-        this.myNotes.add(note);
-
-        return true;
+        return this.ls.putNote(title, content);
     }
 
     /**
@@ -97,22 +89,7 @@ public class Model
      */
     public void removeNote(String[] title)
     {
-        Iterator<INote> it;
-
-        for(int i = 0; i < title.length; i++)
-        {
-            it = this.myNotes.iterator();
-            while(it.hasNext())
-            {
-                INote n = it.next();
-
-                if(n.getTitle().equals(title[i]))
-                {
-                    this.myNotes.remove(n);
-                    break;
-                }
-            }
-        }
+        this.ls.removeNote(title);
     }
 
     /**
@@ -122,30 +99,7 @@ public class Model
      */
     public String[] getNoteList()
     {
-        /*String[] notes = new String[this.myNotes.size()];
-        int i = 0;
-
-        for(INote n:this.myNotes)
-        {
-            notes[i] = n.getTitle();
-            i++;
-        }  */
-
-
-        INote[] notes = this.ls.getNotes();
-        String[] titles= new String[notes.length];
-        int i = 0;
-
-        for(INote n:notes)
-        {
-            titles[i] = n.getTitle();
-            i++;
-        }
-
-        // sort it
-        Arrays.sort(titles);
-
-        return titles;
+        return this.ls.getNotes();
     }
 
     /**
@@ -156,17 +110,6 @@ public class Model
      */
     public String getNote(String title)
     {
-        String content = "";
-
-        for(INote n:this.myNotes)
-        {
-            if(n.getTitle().equals(title))
-            {
-                content = n.getContent();
-                break;
-            }
-        }
-
-        return content;
+        return this.ls.getNote(title);
     }
 }

@@ -36,7 +36,7 @@ public class VUserAdd
         layout.setVgap(8);
         p1.setLayout(layout);
         p1.setPreferredSize(new Dimension(((int) this.getSize().getWidth())-8, 120));
-        p1.setBorder(new EmptyBorder(4,4,4,4));
+        //p1.setBorder(new EmptyBorder(4,4,4,4));
 
         // header
         JLabel header = new JLabel("Benutzer anlegen");

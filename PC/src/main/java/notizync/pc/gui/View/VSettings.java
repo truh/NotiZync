@@ -23,7 +23,7 @@ public class VSettings
     private JTextField tInterval;
     private JTextField tUser;
     private JPasswordField tPassword;
-    private JButton bLogin, bReset, bCreate;
+    private JButton bLogin, bReset, bCreate, bSave, bCancel;
     private JCheckBox autoLogin;
 
     public VSettings(Model m)
@@ -48,62 +48,70 @@ public class VSettings
         JPanel p2 = new JPanel();
         GridLayout layout = new GridLayout(4,2);
         layout.setVgap(8);
+        layout.setHgap(2);
         p2.setLayout(layout);
         p2.setPreferredSize(new Dimension(((int) this.getSize().getWidth())-8, 120));
-        p2.setBorder(new EmptyBorder(4,4,4,4));
 
         JLabel lblInterval = new JLabel("Auto-Synchronisation durchführen alle (minuten): ");
         lblInterval.setBorder(new EmptyBorder(4,4,4,4));
 
-        tInterval = new JTextField(5);
-        tInterval.setPreferredSize(new Dimension(80, 30));
+        this.tInterval = new JTextField(""+this.m.getSetting("sync_interval"));
 
         JLabel lblUser = new JLabel("Benutzername");
         lblUser.setBorder(new EmptyBorder(4,4,4,4));
 
-        tUser = new JTextField("");
-        tUser.setBorder(new EmptyBorder(4,4,4,4));
+        this.tUser = new JTextField((String)this.m.getSetting("sync_username"));
+        this.tUser.setBorder(new EmptyBorder(4,4,4,4));
 
         JLabel lblPassword = new JLabel("Passwort");
         lblPassword.setBorder(new EmptyBorder(4,4,4,4));
 
-        tPassword = new JPasswordField("");
-        tPassword.setBorder(new EmptyBorder(4,4,4,4));
+        this.tPassword = new JPasswordField((String)this.m.getSetting("sync_password"));
+        this.tPassword.setBorder(new EmptyBorder(4,4,4,4));
 
-        bLogin = new JButton("Anmelden");
-        bReset = new JButton("Zurücksetzen");
+        this.bLogin = new JButton("Anmelden");
+        this.bLogin.addActionListener(this.c);
+        this.bReset = new JButton("Zurücksetzen");
+        this.bReset.addActionListener(this.c);
 
-        autoLogin = new JCheckBox("Anmeldedaten verschlüsselt speichern");
-        autoLogin.setPreferredSize(new Dimension(((int) this.getSize().getWidth())-8, 25));
+        this.autoLogin = new JCheckBox("Anmeldedaten verschlüsselt speichern");
+        this.autoLogin.setPreferredSize(new Dimension(((int) this.getSize().getWidth())-8, 25));
+        if((boolean)this.m.getSetting("sync_save")) this.autoLogin.setSelected(true);
 
-        bCreate = new JButton();
-        bCreate.setText("<HTML><FONT color=\"#000099\">Noch kein Account? Jetzt einen anlegen!</FONT></HTML>");
-        bCreate.setHorizontalAlignment(SwingConstants.LEFT);
-        bCreate.setBorderPainted(false);
-        bCreate.setOpaque(false);
-        bCreate.setBackground(Color.WHITE);
-        bCreate.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        bCreate.setPreferredSize(new Dimension(((int) this.getSize().getWidth())-8, 25));
-        bCreate.setBorder(new EmptyBorder(4,4,4,4));
-        bCreate.addActionListener(this.c);
+        this.bCreate = new JButton();
+        this.bCreate.setText("<HTML><FONT color=\"#000099\">Noch kein Account? Jetzt einen anlegen!</FONT></HTML>");
+        this.bCreate.setHorizontalAlignment(SwingConstants.LEFT);
+        this.bCreate.setBorderPainted(false);
+        this.bCreate.setOpaque(false);
+        this.bCreate.setBackground(Color.WHITE);
+        this.bCreate.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.bCreate.setPreferredSize(new Dimension(((int) this.getSize().getWidth())-8, 25));
+        this.bCreate.setBorder(new EmptyBorder(4,4,4,4));
+        this.bCreate.addActionListener(this.c);
 
         p2.add(lblInterval);
-        p2.add(tInterval);
+        p2.add(this.tInterval);
         p2.add(lblUser);
-        p2.add(tUser);
+        p2.add(this.tUser);
         p2.add(lblPassword);
-        p2.add(tPassword);
-        p2.add(bLogin);
-        p2.add(bReset);
+        p2.add(this.tPassword);
+        p2.add(this.bLogin);
+        p2.add(this.bReset);
 
         p1.add(header);
         p1.add(p2);
-        p1.add(autoLogin);
-        p1.add(bCreate);
+        p1.add(this.autoLogin);
+        p1.add(this.bCreate);
 
         JPanel p3 = new JPanel();
-        p3.add(new JButton("Speichern"));
-        p3.add(new JButton("Abbrechen"));
+        p3.setLayout(new GridLayout(1,2));
+        this.bSave = new JButton("Speichern");
+        this.bSave.addActionListener(this.c);
+        this.bCancel = new JButton("Abbrechen");
+        this.bCancel.addActionListener(this.c);
+
+        p3.add(this.bSave);
+        p3.add(this.bCancel);
 
         this.add(p1, BorderLayout.CENTER);
         this.add(p3, BorderLayout.SOUTH);
@@ -111,8 +119,42 @@ public class VSettings
     }
 
     // getter methods
+    public JTextField getIntervalField()
+    {
+        return this.tInterval;
+    }
+    public JTextField getUserField()
+    {
+        return this.tUser;
+    }
+    public JPasswordField getPasswordField()
+    {
+        return this.tPassword;
+    }
+    public JButton getLoginButton()
+    {
+        return this.bLogin;
+    }
+    public JButton getResetButton()
+    {
+        return this.bReset;
+    }
     public JButton getCreateButton()
     {
         return this.bCreate;
     }
+    public JButton getSaveButton()
+    {
+        return this.bSave;
+    }
+
+    public JButton getCancelButton()
+    {
+        return this.bCancel;
+    }
+    public JCheckBox getAutoCheckbox()
+    {
+        return this.autoLogin;
+    }
+
 }
