@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import notizync.core.api.INote;
 import notizync.core.api.IStorageProvider;
 import notizync.core.api.IUpdateEventDistributor;
-import notizync.core.conflict.IConflict;
 import notizync.core.conflict.INegotiator;
 
 import java.io.BufferedReader;
@@ -129,8 +128,8 @@ public class HTTPStorageProvider
         if(exists)
         {
             // which of the note should be kept
-            IConflict conflict = note.clash(existing);
-            note = this.negotiator.negotiate(conflict);
+            //IConflict conflict = note.clash(existing);
+            //note = this.negotiator.negotiate(conflict);
 
             this.noteSet.remove(existing);
             if(!this.removeNote(note)) throw new HTTPStoreException("Transport error while removing the Note!\nEither the API is down or refused to communicate with us.");

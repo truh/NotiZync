@@ -15,15 +15,15 @@
  */
 package notizync.core.basics;
 
-import notizync.core.api.INoteContent;
-import notizync.core.api.INoteTitle;
+import notizync.core.api.INote;
 
 /**
  * A basic immutable implementation for the INote interface
  */
-public final class BasicNote extends AbstractNote {
-    private BasicNoteTitle noteTitle;
-    private BasicNoteContent noteContent;
+public final class BasicNote implements INote
+{
+    private String noteTitle;
+    private String noteContent;
 
     /**
      * Assembles a note from its components
@@ -31,16 +31,35 @@ public final class BasicNote extends AbstractNote {
      * @param noteTitle title
      * @param noteContent content
      */
-    public BasicNote(BasicNoteTitle noteTitle, BasicNoteContent noteContent) {
+    public BasicNote(String noteTitle, String noteContent)
+    {
         this.noteTitle = noteTitle;
         this.noteContent = noteContent;
+    }
+
+    /**
+     * set title of this note
+     * @param title the title to set
+     */
+    public void setTitle(String title)
+    {
+        this.noteTitle = title;
+    }
+
+    /**
+     * set content of this note
+     * @param content the content to set
+     */
+    public void setContent(String content)
+    {
+        this.noteContent = content;
     }
 
     /**
      * @return title of this note
      */
     @Override
-    public INoteTitle getTitle() {
+    public String getTitle() {
         return this.noteTitle;
     }
 
@@ -48,7 +67,7 @@ public final class BasicNote extends AbstractNote {
      * @return content (text) of this note
      */
     @Override
-    public INoteContent getContent() {
+    public String getContent() {
         return this.noteContent;
     }
 }

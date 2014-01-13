@@ -15,12 +15,11 @@
  */
 package notizync.core.loremipsum;
 
-import notizync.core.api.INoteTitle;
-
 /**
  * Lorem Ipsum based title
  */
-public class LoremNoteTitle implements INoteTitle {
+public class LoremNoteTitle
+{
     private String title;
 
     /**

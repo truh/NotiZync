@@ -1,5 +1,8 @@
 package notizync.pc.core;
 
+import notizync.core.api.INote;
+import notizync.core.basics.BasicNote;
+
 import java.util.*;
 
 /**
@@ -10,7 +13,7 @@ import java.util.*;
  */
 public class Model
 {
-    private HashMap<String, String> myNotes = new HashMap<String,String>();
+    private LinkedList<INote> myNotes = new LinkedList<INote>();
 
     public Model()
     {
@@ -25,8 +28,8 @@ public class Model
             {
                 text += (char)r.nextInt('z'-'A')+'A';
             }
-
-            this.myNotes.put("Notiz #"+i, text);
+            INote note = new BasicNote("Notiz #"+i, text);
+            this.myNotes.add(note);
         }
     }
 
@@ -39,10 +42,20 @@ public class Model
      */
     public boolean setContent(String title, String content)
     {
-        if(!this.myNotes.containsKey(title)) return false;
+        INote note = null;
 
-        this.myNotes.remove(title);
-        this.myNotes.put(title, content);
+        for(INote n:this.myNotes)
+        {
+            if(n.getTitle().equals(title))
+            {
+                note = n;
+                break;
+            }
+        }
+
+        if(note == null) return false;
+
+        note.setContent(content);
 
         return true;
     }
@@ -56,9 +69,20 @@ public class Model
      */
     public boolean putNote(String title, String content)
     {
-        if(this.myNotes.containsKey(title)) return false;
+        boolean exists = false;
+        for(INote n:this.myNotes)
+        {
+            if(n.getTitle().equals(title))
+            {
+                exists = true;
+                break;
+            }
+        }
 
-        this.myNotes.put(title, content);
+        if(exists) return false;
+        INote note = new BasicNote(title, content);
+
+        this.myNotes.add(note);
 
         return true;
     }
@@ -70,9 +94,21 @@ public class Model
      */
     public void removeNote(String[] title)
     {
-        for(String item:title)
+        Iterator<INote> it;
+
+        for(int i = 0; i < title.length; i++)
         {
-            this.myNotes.remove(item);
+            it = this.myNotes.iterator();
+            while(it.hasNext())
+            {
+                INote n = it.next();
+
+                if(n.getTitle().equals(title[i]))
+                {
+                    this.myNotes.remove(n);
+                    break;
+                }
+            }
         }
     }
 
@@ -83,16 +119,12 @@ public class Model
      */
     public String[] getNoteList()
     {
-        // we only need the names, not content
-        Set keys = this.myNotes.keySet();
-        Iterator it = keys.iterator();
-
         String[] notes = new String[this.myNotes.size()];
         int i = 0;
 
-        while(it.hasNext())
+        for(INote n:this.myNotes)
         {
-            notes[i] = (String)it.next();
+            notes[i] = n.getTitle();
             i++;
         }
 
@@ -110,6 +142,17 @@ public class Model
      */
     public String getNote(String title)
     {
-        return this.myNotes.get(title);
+        String content = "";
+
+        for(INote n:this.myNotes)
+        {
+            if(n.getTitle().equals(title))
+            {
+                content = n.getContent();
+                break;
+            }
+        }
+
+        return content;
     }
 }

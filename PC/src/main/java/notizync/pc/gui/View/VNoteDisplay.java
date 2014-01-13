@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.URL;
 
-import notizync.pc.core.Model;
 import notizync.pc.gui.Controller.CNoteDisplay;
 
 /**

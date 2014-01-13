@@ -18,7 +18,6 @@ package notizync.core.ftp;
 import notizync.core.api.INote;
 import notizync.core.api.IUpdateEventDistributor;
 import notizync.core.api.IStorageProvider;
-import notizync.core.conflict.IConflict;
 import notizync.core.conflict.INegotiator;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -94,8 +93,8 @@ public final class FTPStorageProvider implements IStorageProvider {
 
         if(exists) {
             // which of the note should be kept
-            IConflict conflict = note.clash(existing);
-            note = this.negotiator.negotiate(conflict);
+            //IConflict conflict = note.clash(existing);
+            //note = this.negotiator.negotiate(conflict);
 
             this.noteSet.remove(existing);
         }

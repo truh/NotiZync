@@ -15,29 +15,39 @@
  */
 package notizync.core.loremipsum;
 
-import notizync.core.api.INoteContent;
-import notizync.core.api.INoteTitle;
-import notizync.core.basics.AbstractNote;
+import notizync.core.api.INote;
 
 /**
  *
  */
-public class LoremNote extends AbstractNote {
-    private LoremNoteTitle title;
-    private LoremNoteContent content;
+public class LoremNote implements INote
+{
+    private String title;
+    private String content;
 
     /**
      * Default constructor
      */
     public LoremNote() {
-        this.title = new LoremNoteTitle();
-        this.content = new LoremNoteContent();
+        this.title = "";
+        this.content = "";
     }
+
+    @Override
+    public void setTitle(String title) {
+
+    }
+
+    @Override
+    public void setContent(String content) {
+
+    }
+
     /**
      * @return title of this note
      */
     @Override
-    public INoteTitle getTitle() {
+    public String getTitle() {
         return this.title;
     }
 
@@ -45,7 +55,7 @@ public class LoremNote extends AbstractNote {
      * @return content (text) of this note
      */
     @Override
-    public INoteContent getContent() {
+    public String getContent() {
         return this.content;
     }
 }

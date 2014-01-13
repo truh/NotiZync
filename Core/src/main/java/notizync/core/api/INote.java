@@ -15,28 +15,29 @@
  */
 package notizync.core.api;
 
-import notizync.core.conflict.IConflict;
-
-import java.io.Serializable;
-
 /**
  *
  */
-public interface INote extends Serializable {
+public interface INote
+{
+    /**
+     * set title of this note
+     * @param title the title to set
+     */
+    public void setTitle(String title);
+
+    /**
+     * set content of this note
+     * @param content the content to set
+     */
+    public void setContent(String content);
     /**
      * @return title of this note
      */
-    public INoteTitle getTitle();
+    public String getTitle();
 
     /**
      * @return content (text) of this note
      */
-    public INoteContent getContent();
-
-    /**
-     * When causality is not clear, a conflict object should be created and passed to the BasicUpdateEventDistributor
-     * @param note conflicting note
-     * @return conflict
-     */
-    public IConflict clash(INote note);
+    public String getContent();
 }

@@ -15,14 +15,13 @@
  */
 package notizync.core.loremipsum;
 
-import notizync.core.basics.AbstractNoteContent;
-
 import java.util.ArrayList;
 
 /**
  *
  */
-public class LoremNoteContent extends AbstractNoteContent {
+public class LoremNoteContent
+{
     private ArrayList<String> lines;
 
     /**
@@ -68,7 +67,6 @@ public class LoremNoteContent extends AbstractNoteContent {
      *
      * @return all the lines
      */
-    @Override
     public String[] getLines() {
         String[] stringArray = new String[this.lines.size()];
         for(int i = 0; i<stringArray.length && i<this.lines.size(); i++) {
