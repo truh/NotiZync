@@ -40,9 +40,7 @@ public class HTTPStorageProvider
     private HashSet<INote> noteSet;
 
     public HTTPStorageProvider(IUpdateEventDistributor eventDistributor,
-                              INegotiator negotiator,
-                              String username,
-                              String password)
+                              INegotiator negotiator)
             throws HTTPStoreException
     {
         this.eventDistributor = eventDistributor;
@@ -50,8 +48,6 @@ public class HTTPStorageProvider
 
         this.backend = HttpClients.createDefault();
         this.json = new Gson();
-
-        if(!this.doLogin(username, password)) throw new HTTPStoreException("Logon failed");
     }
 
     /**
@@ -61,15 +57,14 @@ public class HTTPStorageProvider
      * @param password Plain-Text Password
      * @return true if the login was successful, false if not
      */
-    private boolean doLogin(String username, String password)
+    public boolean doLogin(String username, String password)
     {
         List<NameValuePair> data = new ArrayList<>();
         data.add(new BasicNameValuePair("username", username));
         data.add(new BasicNameValuePair("password", password));
 
-        String raw = this.sendPost(WebAPI.getAPI("IUser", "OAuth"), data);
+        String raw = this.sendPost(WebAPI.getAPI("IUser", "DoLogin"), data);
         if(raw == null) return false;
-
         HTTPLoginResponse parsed = this.json.fromJson(raw, HTTPLoginResponse.class);
 
         if(parsed.success)
@@ -81,15 +76,44 @@ public class HTTPStorageProvider
         return false;
     }
 
-    public void getNotes()
+    /**
+     * Send a request to create a new user in the backend, using the supplied username and password.
+     *
+     * @param username The new user's name
+     * @param password Their Password
+     * @return true, if user was created successfully, false if not (user already exists/api failure)
+     */
+    public boolean doRegister(String username, String password)
+    {
+        List<NameValuePair> data = new ArrayList<>();
+        data.add(new BasicNameValuePair("username", username));
+        data.add(new BasicNameValuePair("password", password));
+
+        String raw = this.sendPost(WebAPI.getAPI("IUser", "DoRegister"), data);
+        if(raw == null) return false;
+
+        HTTPRegisterResponse parsed = this.json.fromJson(raw, HTTPRegisterResponse.class);
+
+        return parsed.success;
+    }
+
+    /**
+     * Retrieve all remotely stored notes for that user and cache it locally.
+     * Use this with caution, everything under 10 seconds might become dangerous (might return a lot of data).
+     *
+     * @return true, if notes were retrieved successfully, false if not
+     */
+    public boolean getNotes()
     {
         List<NameValuePair> data = new ArrayList<>();
         data.add(new BasicNameValuePair("token", this.token));
 
         String raw = this.sendPost(WebAPI.getAPI("INote", "GetNotes"), data);
-        if(raw == null) throw new HTTPStoreException("something went wrong");
+        if(raw == null) return false;
 
         HTTPGetNotesResponse parsed = this.json.fromJson(raw, HTTPGetNotesResponse.class);
+
+        if(parsed == null) return false;
 
         System.out.println(parsed.count);
         System.out.println(parsed.success);
@@ -99,6 +123,7 @@ public class HTTPStorageProvider
         {
             System.out.println(notes[i].title+"|"+notes[i].content);
         }
+        return true;
     }
 
     /**

@@ -18,5 +18,6 @@ public class HTTPGetNotesResponse
     {
         public String title;
         public String content;
+        public long timestamp;
     }
 }

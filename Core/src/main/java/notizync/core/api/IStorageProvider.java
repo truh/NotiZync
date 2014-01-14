@@ -22,7 +22,6 @@ import java.util.Set;
  */
 public interface IStorageProvider
 {
-
     /**
      * Adds or updates a note for storage.
      *

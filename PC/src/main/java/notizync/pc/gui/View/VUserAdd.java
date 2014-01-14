@@ -1,6 +1,7 @@
 package notizync.pc.gui.View;
 
 import notizync.pc.core.Model;
+import notizync.pc.gui.Controller.CUserAdd;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,7 +21,7 @@ public class VUserAdd
     // fields
     private JTextField tUser;
     private JPasswordField tPassword1, tPassword2;
-    private JButton bReset, bCreate;
+    private JButton bCancel, bCreate;
 
     public VUserAdd(Model m)
     {
@@ -31,6 +32,7 @@ public class VUserAdd
         this.setLayout(new BorderLayout());
         this.setResizable(false);
 
+        CUserAdd c = new CUserAdd(this.m, this);
         JPanel p1 = new JPanel();
         GridLayout layout = new GridLayout(4,2);
         layout.setVgap(8);
@@ -62,19 +64,57 @@ public class VUserAdd
         tPassword2.setBorder(new EmptyBorder(4,4,4,4));
 
         bCreate = new JButton("Erstellen");
-        bReset = new JButton("Zurücksetzen");
+        bCancel = new JButton("Abbrechen");
+
+        this.bCreate.addActionListener(c);
+        this.bCancel.addActionListener(c);
 
         p1.add(lblUser);
-        p1.add(tUser);
+        p1.add(this.tUser);
         p1.add(lblPassword1);
-        p1.add(tPassword1);
+        p1.add(this.tPassword1);
         p1.add(lblPassword2);
-        p1.add(tPassword2);
-        p1.add(bCreate);
-        p1.add(bReset);
+        p1.add(this.tPassword2);
+        p1.add(this.bCreate);
+        p1.add(this.bCancel);
 
         this.add(header, BorderLayout.NORTH);
         this.add(p1, BorderLayout.CENTER);
         this.setVisible(true);
+    }
+
+    public JButton getCreateButton()
+    {
+        return this.bCreate;
+    }
+
+    public JButton getCancelButton()
+    {
+        return this.bCancel;
+    }
+
+    public JTextField getUserField()
+    {
+        return this.tUser;
+    }
+
+    public JPasswordField getPassword1()
+    {
+        return this.tPassword1;
+    }
+
+    public JPasswordField getPassword2()
+    {
+        return this.tPassword2;
+    }
+
+    public void showErrorMessage(String message)
+    {
+        JOptionPane.showMessageDialog(this, message, "Fehler", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showInfoMessage(String message)
+    {
+        JOptionPane.showMessageDialog(this, message, "Information", JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -84,7 +84,28 @@ public class LocalStorage
                 return false;
         }
 
-        return (!write) || this.saveJson();
+        if(write)
+        {
+            if(!this.myStorage.settings.sync_save)
+            {
+                String oldPassword = this.myStorage.settings.sync_password;
+                String oldUsername = this.myStorage.settings.sync_username;
+
+                this.myStorage.settings.sync_password = "";
+                this.myStorage.settings.sync_username = "";
+                boolean json = this.saveJson();
+
+                this.myStorage.settings.sync_password = oldPassword;
+                this.myStorage.settings.sync_password = oldUsername;
+
+                return json;
+            }
+            else
+            {
+                return this.saveJson();
+            }
+        }
+        return true;
     }
 
     /**

@@ -10,5 +10,5 @@ package notizync.core.http;
 public class HTTPStoreNoteResponse
 {
     public boolean success;
-    public boolean duplicate;
+    public long timestamp;
 }

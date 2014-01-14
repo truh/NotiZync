@@ -70,6 +70,11 @@ public class VSettings
         this.tPassword.setBorder(new EmptyBorder(4,4,4,4));
 
         this.bLogin = new JButton("Anmelden");
+        if(this.m.isLoggedIn())
+        {
+            this.bLogin.setText("Angemeldet");
+            this.bLogin.setEnabled(false);
+        }
         this.bLogin.addActionListener(this.c);
         this.bReset = new JButton("Zurücksetzen");
         this.bReset.addActionListener(this.c);

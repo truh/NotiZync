@@ -1,5 +1,7 @@
 package notizync.pc.core;
 
+import notizync.core.http.HTTPStorageProvider;
+
 /**
  * Interface between our GUI and the backend (both local storage and remote).
  *
@@ -9,29 +11,17 @@ package notizync.pc.core;
 public class Model
 {
     private LocalStorage ls;
+    private HTTPStorageProvider sp;
 
-    public enum EResult
-    {
-        _,
-        k_Unknown,
-        k_Success,
-        k_RemoteDown,
-        k_RemoteNotLoggedIn,
-        k_RemoteSessionExpired,
-        k_RemoteInvalidUserPassword,
-        k_RemoteNoteExists,
-        k_RemoteInvalidNote,
-        k_RemoteDatabaseFailure,
-        k_RemoteSuccess,
-        k_LocalPermissionsError,
-        k_LocalConcurrentException,
-        k_LocalGeneralError,
-        k_LocalSuccess
-    }
+    private boolean spLoggedIn = false;
 
     public Model()
     {
-        ls = new LocalStorage();
+        this.ls = new LocalStorage();
+        this.sp = new HTTPStorageProvider(null, null);
+
+        if(!this.getSetting("sync_username").equals("") && !this.getSetting("sync_password").equals(""))
+            this.spLoggedIn = this.sp.doLogin((String)this.getSetting("sync_username"), (String)this.getSetting("sync_password"));
     }
 
     /**
@@ -59,6 +49,51 @@ public class Model
     }
 
     /**
+     * Determine whether or not the User is currently logged in into the remote StorageProvider.
+     *
+     * @return true, if logged in, false if not
+     */
+    public boolean isLoggedIn()
+    {
+        return this.spLoggedIn;
+    }
+
+    /**
+     * Set the login state of the remote StorageProvider.
+     * Only call this after being successfully logged in!
+     *
+     * @param value true to set to logged in, false to 'log out'
+     */
+    public void setLoggedIn(boolean value)
+    {
+        this.spLoggedIn = value;
+    }
+
+    /**
+     * Attempt to login into the remote StorageProvider, if successful, directly save the session token.
+     *
+     * @param username the user to login as
+     * @param password the user's password
+     * @return true, if login was successful, false if not
+     */
+    public boolean tryLogin(String username, String password)
+    {
+        return this.sp.doLogin(username, password);
+    }
+
+    /**
+     * Attempt to register a new user in the remote StorageProvider.
+     *
+     * @param username the user to create
+     * @param password the user's password
+     * @return true, if registration was successful, false if not
+     */
+    public boolean tryRegister(String username, String password)
+    {
+        return this.sp.doRegister(username, password);
+    }
+
+    /**
      * Set the Text of a Note.
      *
      * @param title The Note to edit
@@ -67,6 +102,7 @@ public class Model
      */
     public boolean setContent(String title, String content)
     {
+
         return this.ls.setContent(title, content);
     }
 

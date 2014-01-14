@@ -15,6 +15,5 @@ public class HTTPLoginResponse
     public static class SessionData
     {
         public String token;
-        public String expire;
     }
 }

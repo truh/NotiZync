@@ -4,6 +4,7 @@ import notizync.pc.core.Model;
 import notizync.pc.gui.View.VSettings;
 import notizync.pc.gui.View.VUserAdd;
 
+import javax.swing.*;
 import java.awt.event.*;
 
 /**
@@ -40,24 +41,30 @@ public class CSettings
         }
         else if(e.getSource() == this.v.getLoginButton())
         {
-            // add stuff here
+            if(this.m.tryLogin(this.v.getUserField().getText(), String.valueOf(this.v.getPasswordField().getPassword())))
+            {
+                javax.swing.JOptionPane.showMessageDialog(this.v, "Anmeldung erfolgreich!\nSie können nun die Synchronisationsfunktionen des Programmes verwenden.", "Anmeldung", JOptionPane.INFORMATION_MESSAGE);
+                this.v.getLoginButton().setText("Angemeldet");
+                this.v.getLoginButton().setEnabled(false);
+            }
+            else
+            {
+                javax.swing.JOptionPane.showMessageDialog(this.v, "Anmeldung fehlgeschlagen!\nBitte überprüfen Sie die eingegebenen Daten und versuchen Sie es noch einmal!", "Anmeldung", JOptionPane.ERROR_MESSAGE);
+            }
         }
         else if(e.getSource() == this.v.getSaveButton())
         {
             boolean success = false;
             success = this.m.updateSetting("sync_interval", Integer.parseInt(this.v.getIntervalField().getText()), true);
 
+            success = this.m.updateSetting("sync_save", this.v.getAutoCheckbox().isSelected(), true);
             if(!this.v.getAutoCheckbox().isSelected() && (boolean)this.m.getSetting("sync_save"))
             {
                 success = this.m.updateSetting("sync_username", "", true);
                 success = this.m.updateSetting("sync_password", "", true);
             }
-            else
-            {
-                success = this.m.updateSetting("sync_username", this.v.getUserField().getText(), this.v.getAutoCheckbox().isSelected());
-                success = this.m.updateSetting("sync_password", String.valueOf(this.v.getPasswordField().getPassword()), this.v.getAutoCheckbox().isSelected());
-            }
-            success = this.m.updateSetting("sync_save", this.v.getAutoCheckbox().isSelected(), true);
+            success = this.m.updateSetting("sync_username", this.v.getUserField().getText(), this.v.getAutoCheckbox().isSelected());
+            success = this.m.updateSetting("sync_password", String.valueOf(this.v.getPasswordField().getPassword()), this.v.getAutoCheckbox().isSelected());
 
             if(!success)
             {
