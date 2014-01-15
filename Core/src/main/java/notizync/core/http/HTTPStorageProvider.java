@@ -57,23 +57,23 @@ public class HTTPStorageProvider
      * @param password Plain-Text Password
      * @return true if the login was successful, false if not
      */
-    public boolean doLogin(String username, String password)
+    public EResult doLogin(String username, String password)
     {
         List<NameValuePair> data = new ArrayList<>();
         data.add(new BasicNameValuePair("username", username));
         data.add(new BasicNameValuePair("password", password));
 
         String raw = this.sendPost(WebAPI.getAPI("IUser", "DoLogin"), data);
-        if(raw == null) return false;
+        if(raw == null) return EResult.k_RemoteDown;
         HTTPLoginResponse parsed = this.json.fromJson(raw, HTTPLoginResponse.class);
 
         if(parsed.success)
         {
             this.token = parsed.session_data.token;
             this.noteSet = new HashSet<>();
-            return true;
+            return EResult.k_RemoteSuccess;
         }
-        return false;
+        return EResult.k_RemoteInvalidLogin;
     }
 
     /**
@@ -83,18 +83,25 @@ public class HTTPStorageProvider
      * @param password Their Password
      * @return true, if user was created successfully, false if not (user already exists/api failure)
      */
-    public boolean doRegister(String username, String password)
+    public EResult doRegister(String username, String password)
     {
         List<NameValuePair> data = new ArrayList<>();
         data.add(new BasicNameValuePair("username", username));
         data.add(new BasicNameValuePair("password", password));
 
         String raw = this.sendPost(WebAPI.getAPI("IUser", "DoRegister"), data);
-        if(raw == null) return false;
+        if(raw == null) return EResult.k_RemoteDown;
 
         HTTPRegisterResponse parsed = this.json.fromJson(raw, HTTPRegisterResponse.class);
 
-        return parsed.success;
+        if(parsed.success)
+        {
+            return EResult.k_RemoteSuccess;
+        }
+        else
+        {
+            return EResult.values()[parsed.error.code];
+        }
     }
 
     /**

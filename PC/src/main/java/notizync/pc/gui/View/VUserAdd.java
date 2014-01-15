@@ -8,10 +8,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
- * Create something.
+ * Open up a dialogue to create a new user account on the backend.
  *
  * @author Andreas Willinger
- * @version 0.1
+ * @version 1.0
  */
 public class VUserAdd
     extends JFrame

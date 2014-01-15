@@ -1,5 +1,6 @@
 package notizync.pc.core;
 
+import notizync.core.http.EResult;
 import notizync.core.http.HTTPStorageProvider;
 
 /**
@@ -21,7 +22,11 @@ public class Model
         this.sp = new HTTPStorageProvider(null, null);
 
         if(!this.getSetting("sync_username").equals("") && !this.getSetting("sync_password").equals(""))
-            this.spLoggedIn = this.sp.doLogin((String)this.getSetting("sync_username"), (String)this.getSetting("sync_password"));
+        {
+            EResult result = this.sp.doLogin((String)this.getSetting("sync_username"), (String)this.getSetting("sync_password"));
+
+            if(result == EResult.k_RemoteSuccess) this.spLoggedIn = true;
+        }
     }
 
     /**
@@ -76,7 +81,7 @@ public class Model
      * @param password the user's password
      * @return true, if login was successful, false if not
      */
-    public boolean tryLogin(String username, String password)
+    public EResult tryLogin(String username, String password)
     {
         return this.sp.doLogin(username, password);
     }
@@ -88,7 +93,7 @@ public class Model
      * @param password the user's password
      * @return true, if registration was successful, false if not
      */
-    public boolean tryRegister(String username, String password)
+    public EResult tryRegister(String username, String password)
     {
         return this.sp.doRegister(username, password);
     }

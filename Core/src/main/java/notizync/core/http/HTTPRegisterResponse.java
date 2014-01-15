@@ -9,4 +9,12 @@ package notizync.core.http;
 public class HTTPRegisterResponse
 {
     public boolean success;
+
+    public Error error;
+
+    public class Error
+    {
+        public int code;
+        public String message;
+    }
 }

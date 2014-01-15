@@ -1,5 +1,6 @@
 package notizync.pc.gui.Controller;
 
+import notizync.core.http.EResult;
 import notizync.pc.core.Model;
 import notizync.pc.gui.View.VUserAdd;
 
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
  * Interface between our GUI and the backend.
  *
  * @author Andreas Willinger
- * @version 0.1
+ * @version 1.0
  */
 public class CUserAdd
     implements ActionListener
@@ -50,19 +51,23 @@ public class CUserAdd
                 }
                 else
                 {
-                   boolean success = this.m.tryRegister(username, password1);
+                   EResult success = this.m.tryRegister(username, password1);
 
-                   if(!success)
+                   switch(success)
                    {
-                        this.v.showErrorMessage("Das Anlegen Ihres Accounts ist fehlgeschlagen!\nSehr wahrscheinlich ist Ihr Benutzername bereits in Verwendung.\nWählen Sie einen neuen und versuchen Sie es noch einmal" +
-                                "\n\nFalls das Problem anhält, überprüfen Sie bitte Ihre Netzwerkverbindung.");
-                   }
-                   else
-                   {
-                       this.v.showInfoMessage("Das Anlegen Ihres Accounts war erfolgreich!\nSie können sich nun mit den von Ihnen angegebenen Daten einloggen.");
+                       case k_RemoteDatabaseFailure:
+                       case k_RemoteDown:
+                           this.v.showErrorMessage("Das Anlegen Ihres Accounts ist fehlgeschlagen!\nDie Kommunikation mit dem Registrierungs-Server war nicht erfolgreich.\nBitte versuchen Sie es später noch einmal.");
+                           break;
+                       case k_RemoteUserExists:
+                           this.v.showErrorMessage("Das Anlegen Ihres Accounts ist fehlgeschlagen!\nDer von Ihnen eingegebene Benutzername ist bereits in Verwendung.");
+                           break;
+                       case k_RemoteSuccess:
+                           this.v.showInfoMessage("Das Anlegen Ihres Accounts war erfolgreich!\nSie können sich nun mit den von Ihnen angegebenen Daten einloggen.");
 
-                       this.v.setVisible(false);
-                       this.v.dispose();
+                           this.v.setVisible(false);
+                           this.v.dispose();
+                           break;
                    }
                 }
             }
