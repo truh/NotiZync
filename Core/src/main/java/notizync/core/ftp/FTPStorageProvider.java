@@ -19,6 +19,7 @@ import notizync.core.api.INote;
 import notizync.core.api.IUpdateEventDistributor;
 import notizync.core.api.IStorageProvider;
 import notizync.core.conflict.INegotiator;
+import notizync.core.http.EResult;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 
@@ -78,7 +79,7 @@ public final class FTPStorageProvider implements IStorageProvider {
      * @return note that was stored before with the same title or null
      */
     @Override
-    public INote putNote(INote note) {
+    public EResult putNote(INote note) {
         boolean exists = false;
         INote existing = null;
 
@@ -101,7 +102,7 @@ public final class FTPStorageProvider implements IStorageProvider {
 
         this.noteSet.add(note);
 
-        return exists ? existing : null;
+        return exists ? EResult.k_RemoteSuccess : null;
     }
 
     /**
@@ -111,8 +112,8 @@ public final class FTPStorageProvider implements IStorageProvider {
      * @return false if the given note did not exists
      */
     @Override
-    public boolean removeNote(INote note) {
-        return this.noteSet.remove(note);
+    public EResult removeNote(INote note) {
+        return (this.noteSet.remove(note))?EResult.k_RemoteSuccess:EResult.k_RemoteDown;
     }
 
     /**

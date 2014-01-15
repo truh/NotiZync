@@ -79,6 +79,8 @@ public class CSettings
             }
             else
             {
+                this.m.updateTimer();
+
                 this.v.setVisible(false);
                 this.v.dispose();
             }

@@ -13,5 +13,12 @@ public enum EResult
     k_RemoteEmptyData,
     k_RemoteUserExists,
     k_RemoteInvalidLogin,
-    k_RemoteSuccess
+    k_RemoteAccessDenied,
+    k_RemoteInvalidNote,
+    k_RemoteNoteIsNewer,
+    k_RemoteUpdateSuccess,
+    k_RemoteSuccess,
+    k_LocalFailure,
+    k_LocalSuccess,
+    k_Success
 }

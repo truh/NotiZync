@@ -1,5 +1,6 @@
 package notizync.pc.gui.View;
 
+import notizync.core.api.IRemoteUpdateListener;
 import notizync.pc.core.Model;
 import notizync.pc.gui.Controller.CNoteDisplay;
 
@@ -17,6 +18,7 @@ import java.net.URL;
  */
 public class VNoteList
     extends JPanel
+    implements IRemoteUpdateListener
 {
     private Model m;
     private CNoteDisplay c;
@@ -30,6 +32,8 @@ public class VNoteList
     {
         this.m = m;
         this.c = c;
+
+        this.m.addUpdateListener(this);
     }
 
     /**

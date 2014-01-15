@@ -15,6 +15,8 @@
  */
 package notizync.core.api;
 
+import notizync.core.http.EResult;
+
 import java.util.Set;
 
 /**
@@ -28,7 +30,7 @@ public interface IStorageProvider
      * @param note note that should be stored
      * @return note that was stored before with the same title or null
      */
-    public INote putNote(INote note) throws RuntimeException;
+    public EResult putNote(INote note) throws RuntimeException;
 
     /**
      * Removes a note from the storage.
@@ -36,7 +38,7 @@ public interface IStorageProvider
      * @param note note that should be removed
      * @return true, if the note was successfully removed; false, if there was an error or the note doesn't exist
      */
-    public boolean removeNote(INote note);
+    public EResult removeNote(INote note);
 
     /**
      * @return set of notes stored by this StorageProvider

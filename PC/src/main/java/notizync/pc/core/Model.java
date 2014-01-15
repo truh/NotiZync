@@ -1,7 +1,16 @@
 package notizync.pc.core;
 
+import notizync.core.api.INote;
+import notizync.core.api.IRemoteUpdateListener;
+import notizync.core.basics.BasicNote;
 import notizync.core.http.EResult;
 import notizync.core.http.HTTPStorageProvider;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Interface between our GUI and the backend (both local storage and remote).
@@ -12,20 +21,29 @@ import notizync.core.http.HTTPStorageProvider;
 public class Model
 {
     private LocalStorage ls;
-    private HTTPStorageProvider sp;
 
+    private HTTPStorageProvider sp;
     private boolean spLoggedIn = false;
+
+    private java.util.Timer timer;
+    private List<IRemoteUpdateListener> listeners;
 
     public Model()
     {
         this.ls = new LocalStorage();
         this.sp = new HTTPStorageProvider(null, null);
 
+        this.listeners = new LinkedList<IRemoteUpdateListener>();
+
         if(!this.getSetting("sync_username").equals("") && !this.getSetting("sync_password").equals(""))
         {
             EResult result = this.sp.doLogin((String)this.getSetting("sync_username"), (String)this.getSetting("sync_password"));
 
-            if(result == EResult.k_RemoteSuccess) this.spLoggedIn = true;
+            if(result == EResult.k_RemoteSuccess)
+            {
+                this.spLoggedIn = true;
+                this.setupTimer((int) this.getSetting("sync_interval"));
+            }
         }
     }
 
@@ -105,10 +123,15 @@ public class Model
      * @param content The new content
      * @return true, if the update was successful, false if the note doesn't exist
      */
-    public boolean setContent(String title, String content)
+    public EResult setContent(String title, String content)
     {
+        if(this.spLoggedIn)
+        {
+            EResult remote = this.sp.putNote(new BasicNote(title, content, new java.util.Date().getTime()));
 
-        return this.ls.setContent(title, content);
+            if(remote != EResult.k_RemoteUpdateSuccess) return remote;
+        }
+        return this.ls.setContent(title, content)?EResult.k_Success:EResult.k_LocalFailure;
     }
 
     /**
@@ -118,9 +141,15 @@ public class Model
      * @param content Content
      * @return true, if saving was successful, false a note with the same name already exists.
      */
-    public boolean putNote(String title, String content)
+    public EResult putNote(String title, String content)
     {
-        return this.ls.putNote(title, content);
+        if(this.spLoggedIn)
+        {
+            EResult remote = this.sp.putNote(new BasicNote(title, content, new java.util.Date().getTime()));
+
+            if(remote != EResult.k_RemoteSuccess) return remote;
+        }
+        return this.ls.putNote(title, content)?EResult.k_Success:EResult.k_LocalFailure;
     }
 
     /**
@@ -130,6 +159,13 @@ public class Model
      */
     public void removeNote(String[] title)
     {
+        if(this.spLoggedIn)
+        {
+            for(String t:title)
+            {
+                System.out.println(this.sp.removeNote(new BasicNote(t, "", 0)));
+            }
+        }
         this.ls.removeNote(title);
     }
 
@@ -140,7 +176,29 @@ public class Model
      */
     public String[] getNoteList()
     {
-        return this.ls.getNotes();
+        if(this.spLoggedIn)
+        {
+            List<INote> remote = this.sp.getNoteList();
+            String[] notes = new String[remote.size()];
+
+            int i = 0;
+            for(INote n:remote)
+            {
+                notes[i] = n.getTitle();
+                i++;
+
+                if(this.ls.getNote(n.getTitle()) == null)
+                    this.ls.putNote(n.getTitle(), n.getContent());
+                else
+                    this.ls.setContent(n.getTitle(), n.getContent());
+            }
+
+            return notes;
+        }
+        else
+        {
+            return this.ls.getNotes();
+        }
     }
 
     /**
@@ -151,6 +209,77 @@ public class Model
      */
     public String getNote(String title)
     {
-        return this.ls.getNote(title);
+        if(this.spLoggedIn)
+        {
+            List<INote> notes = this.sp.getNoteList();
+            String content ="";
+
+            for(INote n:notes)
+            {
+                if(n.getTitle().equals(title))
+                {
+                    content = n.getContent();
+                    break;
+                }
+            }
+            return content;
+        }
+        else
+        {
+            return this.ls.getNote(title);
+        }
+    }
+
+    /**
+     * Setup an update timer with the given Interval.
+     *
+     * @param interval the interval to run at, in minutes
+     */
+    public void setupTimer(int interval)
+    {
+        this.timer = new Timer();
+        this.timer.schedule(new TimerTask() {
+            @Override
+            public void run()
+            {
+                sp.getNotes();
+
+                for(IRemoteUpdateListener l:listeners)
+                {
+                    l.update();
+                }
+            }
+        }, 0, interval*60000);
+    }
+
+    /**
+     * Kill all currently active Timer tasks.
+     */
+    public void killTimer()
+    {
+        if(this.timer != null)
+        {
+            this.timer.cancel();
+            this.timer = null;
+        }
+    }
+
+    /**
+     * Re-setup the Timer
+     */
+    public void updateTimer()
+    {
+        this.killTimer();
+        this.setupTimer((int)getSetting("sync_interval"));
+    }
+
+    public void addUpdateListener(IRemoteUpdateListener listener)
+    {
+        this.listeners.add(listener);
+    }
+
+    public void removeUpdateListener(IRemoteUpdateListener listener)
+    {
+        this.listeners.remove(listener);
     }
 }

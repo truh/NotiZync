@@ -1,5 +1,6 @@
 package notizync.pc.gui.Controller;
 
+import notizync.core.http.EResult;
 import notizync.pc.core.Model;
 import notizync.pc.gui.View.VNoteAdd;
 import notizync.pc.gui.View.VNoteList;
@@ -39,18 +40,27 @@ public class CNoteAdd implements ActionListener
 
         if(source == this.v.getSave())
         {
-            // store was successful, update the JList
-            if(this.m.putNote(this.v.getHeader().getText(), this.v.getContent().getText()))
+            if(this.v.getHeader().getText().equals("") || this.v.getContent().getText().equals(""))
             {
-                this.l.update();
-
-                this.v.setVisible(false);
-                this.v.dispose();
+                JOptionPane.showMessageDialog(null, "Bitte füllen Sie alle Felder aus!", "Fehler", JOptionPane.ERROR_MESSAGE);
             }
-            // most likely a dupe
             else
             {
-                JOptionPane.showMessageDialog(null, "Die Notiz konnte leider nicht gespeichert werden!\nBitte überprüfen Sie, ob nicht bereits eine Notiz mit dem selben Namen existiert.", "Fehler beim Speichern", JOptionPane.ERROR_MESSAGE);
+                // store was successful, update the JList
+                EResult result = this.m.putNote(this.v.getHeader().getText(), this.v.getContent().getText());
+                if(result == EResult.k_Success)
+                {
+                    this.l.update();
+
+                    this.v.setVisible(false);
+                    this.v.dispose();
+                }
+                // most likely a dupe
+                else
+                {
+                    System.out.println(result);
+                    JOptionPane.showMessageDialog(null, "Die Notiz konnte leider nicht gespeichert werden!\nBitte überprüfen Sie, ob nicht bereits eine Notiz mit dem selben Namen existiert.", "Fehler beim Speichern", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
         else if(source == this.v.getCancel())

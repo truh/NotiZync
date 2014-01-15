@@ -1,5 +1,6 @@
 package notizync.pc.gui.Controller;
 
+import notizync.core.http.EResult;
 import notizync.pc.core.Model;
 import notizync.pc.gui.View.VNoteAdd;
 import notizync.pc.gui.View.VNoteDisplay;
@@ -51,13 +52,15 @@ public class CNoteDisplay
         if(button == this.v2.getSave())
         {
             // the update of our note was successful, so disable the editing area again
-            if(this.m.setContent(this.v2.getHeader().getText(), this.v2.getContent().getText()))
+            EResult result = this.m.setContent(this.v2.getHeader().getText(), this.v2.getContent().getText());
+            if(result == EResult.k_Success)
             {
                 this.noteChanged = false;
                 this.toggleButtons();
             }
             else
             {
+                System.out.println(result);
                 JOptionPane.showMessageDialog(null, "Die Notiz konnte leider nicht gespeichert werden!\nBitte überprüfen Sie, ob die Notiz überhaupt existiert und versuchen Sie es noch einmal.", "Fehler beim Speichern", JOptionPane.ERROR_MESSAGE);
             }
         }

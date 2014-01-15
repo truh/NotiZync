@@ -34,7 +34,8 @@ public class LocalStorage
 
             BufferedReader br = new BufferedReader(new FileReader(this.f));
 
-            String data = "", line = "";
+            String data = "";
+            String line = "";
             while((line = br.readLine()) != null)
             {
                  data += line;
@@ -234,6 +235,11 @@ public class LocalStorage
         return notes;
     }
 
+    public ArrayList getNoteList()
+    {
+        return this.myStorage.notes;
+    }
+
     /**
      * Get the content of a Note.
      *
@@ -242,7 +248,7 @@ public class LocalStorage
      */
     public String getNote(String title)
     {
-        String content = "";
+        String content = null;
 
         for(INote n:this.myStorage.notes)
         {

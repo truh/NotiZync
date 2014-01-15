@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import notizync.core.api.INote;
 import notizync.core.api.IStorageProvider;
 import notizync.core.api.IUpdateEventDistributor;
+import notizync.core.basics.BasicNote;
 import notizync.core.conflict.INegotiator;
 
 import java.io.BufferedReader;
@@ -37,11 +38,10 @@ public class HTTPStorageProvider
     private Gson json;
 
     private String token;
-    private HashSet<INote> noteSet;
+    private LinkedList<INote> noteSet;
 
     public HTTPStorageProvider(IUpdateEventDistributor eventDistributor,
                               INegotiator negotiator)
-            throws HTTPStoreException
     {
         this.eventDistributor = eventDistributor;
         this.negotiator = negotiator;
@@ -70,7 +70,9 @@ public class HTTPStorageProvider
         if(parsed.success)
         {
             this.token = parsed.session_data.token;
-            this.noteSet = new HashSet<>();
+            this.noteSet = new LinkedList<>();
+            this.getNotes();
+
             return EResult.k_RemoteSuccess;
         }
         return EResult.k_RemoteInvalidLogin;
@@ -120,15 +122,15 @@ public class HTTPStorageProvider
 
         HTTPGetNotesResponse parsed = this.json.fromJson(raw, HTTPGetNotesResponse.class);
 
-        if(parsed == null) return false;
-
-        System.out.println(parsed.count);
-        System.out.println(parsed.success);
+        if(!parsed.success) return false;
 
         HTTPGetNotesResponse.Note[] notes = parsed.data;
+
+        this.noteSet.clear();
         for(int i = 0; i < notes.length; i++)
         {
-            System.out.println(notes[i].title+"|"+notes[i].content);
+            INote note = new BasicNote(notes[i].title, notes[i].content, notes[i].timestamp);
+            this.noteSet.add(note);
         }
         return true;
     }
@@ -140,71 +142,120 @@ public class HTTPStorageProvider
      * @return note that was stored before with the same title or null
      */
     @Override
-    public INote putNote(INote note)
-            throws HTTPStoreException
+    public EResult putNote(INote note)
     {
-        boolean exists = false;
-        INote existing = null;
+        // check if the note already exists
+        List<NameValuePair> data = new ArrayList<>();
+        data.add(new BasicNameValuePair("title", note.getTitle()));
+        data.add(new BasicNameValuePair("timestamp", ""+note.getTimestamp()));
+        data.add(new BasicNameValuePair("token", this.token));
 
-        //compares title of new note to existing ones
-        for(Iterator<INote> iterator = this.noteSet.iterator();
-            iterator.hasNext(); existing = iterator.next())
+        String raw = this.sendPost(WebAPI.getAPI("INote", "GetNoteState"), data);
+        if(raw == null) return EResult.k_RemoteDown;
+
+        HTTPNoteStateResponse parsed = this.json.fromJson(raw, HTTPNoteStateResponse.class);
+        if(!parsed.success) return EResult.values()[parsed.error.code];
+
+        if(parsed.state.exists)
         {
-            if(existing.getTitle().toString().equals(note.getTitle().toString()))
+            if(parsed.state.local_is_newer)
             {
-                exists = true;
-                break;
+                return this.storeNote(note, true);
             }
-        }
+            else
+            {
+                this.getNotes();
 
-        if(exists)
-        {
-            // which of the note should be kept
-            //IConflict conflict = note.clash(existing);
-            //note = this.negotiator.negotiate(conflict);
-
-            this.noteSet.remove(existing);
-            if(!this.removeNote(note)) throw new HTTPStoreException("Transport error while removing the Note!\nEither the API is down or refused to communicate with us.");
+                return EResult.k_RemoteNoteIsNewer;
+            }
         }
         else
         {
-            if(!this.storeNote(note)) throw new HTTPStoreException("Transport error while storing the Note!\nEither the API is down or refused to communicate with us.");
+           return this.storeNote(note, false);
         }
-
-        this.noteSet.add(note);
-
-        return exists ? existing : null;
     }
 
-    private boolean storeNote(INote note)
+    /**
+     * Store a new note or update an existing note on the API.
+     *
+     * @param note the note to update/store
+     * @param update true, if the operation is an update one, false if not (store a new note)
+     * @return an EResult Object
+     */
+    private EResult storeNote(INote note, boolean update)
     {
+        String updateS =(update)?"1":"0";
+
         List<NameValuePair> data = new ArrayList<>();
-        data.add(new BasicNameValuePair("title", note.getTitle().toString()));
-        data.add(new BasicNameValuePair("content", note.getContent().toString()));
+        data.add(new BasicNameValuePair("title", note.getTitle()));
+        data.add(new BasicNameValuePair("content", note.getContent()));
+        data.add(new BasicNameValuePair("timestamp", ""+note.getTimestamp()));
+        data.add(new BasicNameValuePair("update", updateS));
         data.add(new BasicNameValuePair("token", this.token));
 
         String raw = this.sendPost(WebAPI.getAPI("INote", "StoreNote"), data);
-        if(raw == null) return false;
+        if(raw == null) return EResult.k_RemoteDown;
 
         HTTPStoreNoteResponse parsed = this.json.fromJson(raw, HTTPStoreNoteResponse.class);
 
-        return parsed.success;
+        if(!parsed.success) return EResult.values()[parsed.error.code];
+
+        if(update)
+        {
+            for(INote n:this.noteSet)
+            {
+                if(n.getTitle().equals(note.getTitle()))
+                {
+                    n.setContent(note.getContent());
+                    break;
+                }
+            }
+
+            return EResult.k_RemoteUpdateSuccess;
+        }
+        else
+        {
+            this.noteSet.add(note);
+            return EResult.k_RemoteSuccess;
+        }
     }
 
-    public boolean removeNote(INote note)
+    /**
+     * Remove a note from the remote note set.
+     *
+     * @param note note that should be removed
+     * @return an EResult object
+     */
+    public EResult removeNote(INote note)
     {
         List<NameValuePair> data = new ArrayList<>();
-        data.add(new BasicNameValuePair("title", note.getTitle().toString()));
+        data.add(new BasicNameValuePair("title", note.getTitle()));
         data.add(new BasicNameValuePair("token", this.token));
 
         String raw = this.sendPost(WebAPI.getAPI("INote", "RemoveNote"), data);
-        if(raw == null) return false;
+        if(raw == null) return EResult.k_RemoteDown;
 
         HTTPStoreNoteResponse parsed = this.json.fromJson(raw, HTTPStoreNoteResponse.class);
+        if(!parsed.success) return EResult.values()[parsed.error.code];
 
-        return parsed.success;
+        for(INote n:this.noteSet)
+        {
+            if(n.getTitle().equals(note.getTitle()))
+            {
+                this.noteSet.remove(n);
+                break;
+            }
+        }
+        return EResult.k_RemoteSuccess;
     }
 
+    /**
+     * Send a post request to the specified Web API with the given fields.
+     *
+     * @param url the Web API to use, @see WebAPI.getApi for usage
+     * @param data the data to send, must be a list containing NameValuePairs
+     * @return the string returned from the API, null if there was an error
+     */
     private String sendPost(String url, List<NameValuePair> data)
     {
         HttpPost request = new HttpPost(url);
@@ -238,15 +289,15 @@ public class HTTPStorageProvider
         }
     }
 
+    @Override
+    public HashSet<INote> getNoteSet() {return null;}
     /**
      * @return set of notes stored by this StorageProvider
      */
-    @Override
-    public Set<INote> getNoteSet()
+    public List<INote> getNoteList()
     {
-        return new HashSet<>(this.noteSet);
+        return this.noteSet;
     }
-
     /**
      * As we invoke the different Sync-Methods on every Update, this Method is unused.
      */
